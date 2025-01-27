@@ -1,0 +1,17 @@
+{
+  "name": "bookaplace",
+  "version": "1.0.0",
+  "description": "Books a place",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "author": "Deblazz",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "nodemon": "^3.1.9"
+  }
+}
