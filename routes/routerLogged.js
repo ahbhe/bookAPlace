@@ -9,4 +9,7 @@ router.route('/allBucchins')
 router.route('/manageBucchins')
     .get(controllerLogged.get_ManageBookings);
 
+router.route('/myProfile')
+    .get(controllerLogged.get_MyProfile);
+
 module.exports = router;
