@@ -1,3 +1,7 @@
-exports.get_Home = (req, res) =>{
-    res.render('indexLogged');
+exports.get_AllBookingsLogged = (req, res) =>{
+    res.render('allBookingsLogged');
+}
+
+exports.get_ManageBookings = (req, res) =>{
+    res.render('manageBookingsLogged');
 }

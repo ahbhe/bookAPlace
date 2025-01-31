@@ -10,3 +10,10 @@ body{
 @plugin "daisyui" {
     themes: lemonade --default, dark --prefersdark;
 }
+
+::selection {
+    background: lightgray /* WebKit/Blink Browsers */
+  }
+  ::-moz-selection {
+    background: lightgray; /* Gecko Browsers */
+  }
