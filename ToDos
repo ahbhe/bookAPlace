@@ -15,3 +15,12 @@ bookaplacepolito
 Capire come cambiare in modo furbo i localhost nel nodemailer
 
 TODO rivedo login
+
+TODO modifica descrizione ed immagine
+
+TODO Colori per evidenziare stato date in calendario
+
+TODO Anche le pwd errate sono viste come conferma mail nel login
+
+TODO In un futuro remoto dei modal
+TODO Sort temporale rendering bookings + accorpamento bookings stesso giorno

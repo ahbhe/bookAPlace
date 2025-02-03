@@ -159,7 +159,6 @@ exports.post_Login = (req, res, next) => {
     }
 
     console.log("ERR: " + err);
-    console.log(user);
     console.log(info);
 
     if (!user) {

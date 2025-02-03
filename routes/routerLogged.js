@@ -15,4 +15,9 @@ router.route('/myProfile')
 router.route('/logout')
     .get(utils.userCheck, controllerLogged.get_Logout);
 
+router.route('/newBucchin')
+    .post(utils.userCheck, controllerLogged.post_CreateBooking);
+
+router.route('/deleteBucchin/:id')
+    .post(utils.userCheck, controllerLogged.delete_DeleteBooking);
 module.exports = router;

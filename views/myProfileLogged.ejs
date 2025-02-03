@@ -22,8 +22,10 @@
                                             d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
                                     </svg>
                                     <!-- Immagine con effetto grayscale -->
+                                     <%if(user.img ==''){%>
                                     <img class="transition duration-500 group-hover:grayscale group-hover:blur-2xl z-0"
-                                        src="/assets/imgs/chickenLittle.jpg" />
+                                        src="/assets/imgs/defaultProfile.png" />
+                                        <%}%>
                                 </div>
                             </div>
 
@@ -33,15 +35,11 @@
                     </label>
                 </div>
                 <div class="flex justify-between">
-                    <h2 class="text-3xl font-bold">Chicken Little</h2>
+                    <h2 class="text-3xl font-bold"><%=user.nome + " " + user.cognome%></h2>
                 </div>
                 <a class="text-xs opacity-30 tracking-wide italic">(Sei bellissim* ❤️ )</a>
 
-                <div>
-
-                    Sono Chicken Little, un piccolo pollo con un grande cuore. Anche se a volte sono un po' timido e un
-                    po' esagerato, mi piace affrontare le sfide con coraggio e difendere i miei amici, anche quando
-                    tutto sembra andare storto!</div>
+                <div><%= user.description%></div>
                 <h2 class="text-xl font-bold pt-6">Il mese in breve:</h2>
 
                 <div class="stats shadow">

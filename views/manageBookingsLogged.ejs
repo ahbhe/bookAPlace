@@ -1,5 +1,9 @@
 <%- include('./partials/headerLogged'); %>
 
+  <!--PIKADAY CDN-->
+  <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
+
+
   <div class="lg:flex lg:items-center lg:justify-center min-h-screen grid grid-cols-1 grid-flow-row-dense">
 
     <div class="flex justify-center basis-1/4 pt-20">
@@ -7,135 +11,209 @@
 
         <li class="p-4 pb-2 text-xl opacity-60 tracking-wide">Le mie prenotazioni</li>
 
-        <li class="list-row">
-          <div>
-            <div>31/01/2025</div>
-            <div class="text-xs uppercase font-semibold opacity-60">08:30 - 14:30 / 16:00-19:00</div>
-          </div>
-            <div class="flex justify-end">
-              <div class="tooltip" data-tip="Copia nella data selezionata">
-                <button class="btn btn-square btn-ghost">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
-              </svg>
-            </button>
-            </div>
-            
-          <div class="tooltip" data-tip="Elimina">
-          <button class="btn btn-square btn-ghost">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-              stroke="currentColor" class="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round"
-                d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-            </svg>
-          </button>
-          </div>
-        </div>
-        </li>
+        <%if(bookings.length){%>
+          <% bookings.forEach((booking, index)=>{%>
 
-        <li class="list-row">
-          <div>
-            <div>01/02/2026</div>
-            <div class="text-xs uppercase font-semibold opacity-60">17:30 - 19:00</div>
-          </div>
-          <div class="flex justify-end">
-            <div class="tooltip" data-tip="Copia nella data selezionata">
-              <button class="btn btn-square btn-ghost">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
-            </svg>
-          </button>
-          </div>
-          
-        <div class="tooltip" data-tip="Elimina">
-        <button class="btn btn-square btn-ghost">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-            stroke="currentColor" class="size-6">
-            <path stroke-linecap="round" stroke-linejoin="round"
-              d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-          </svg>
-        </button>
-        </div>
-      </div>
-        </li>
+            <li class="list-row">
+              <div>
+                <div>
+                  <%= booking.date%>
+                </div>
+                <div id="copyHours<%=index%>" class="text-xs uppercase font-semibold opacity-60">
+                  <%=booking.hourIntervals%>
+                </div>
+              </div>
+              <div class="flex justify-end">
+                <div class="tooltip" data-tip="Copia nella data selezionata">
+                  <button onclick="copyInCurrentDate(<%=index%>)" class="btn btn-square btn-ghost">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                      stroke="currentColor" class="size-6">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
+                    </svg>
+                  </button>
+                </div>
 
-        <li class="list-row">
-          <div>
-            <div>02/02/2026</div>
-            <div class="text-xs uppercase font-semibold opacity-60">14:30 - 16:00</div>
-          </div>
-          <div class="flex justify-end">
-            <div class="tooltip" data-tip="Copia nella data selezionata">
-              <button class="btn btn-square btn-ghost">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
-            </svg>
-          </button>
-          </div>
-          
-        <div class="tooltip" data-tip="Elimina">
-        <button class="btn btn-square btn-ghost">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-            stroke="currentColor" class="size-6">
-            <path stroke-linecap="round" stroke-linejoin="round"
-              d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-          </svg>
-        </button>
-        </div>
-      </div>
-        </li>
+                <div class="tooltip" data-tip="Elimina">
+                  <form action="/logged/deleteBucchin/<%=booking._id%>" method="POST">
+                    <a onclick="this.parentNode.submit();" class="btn btn-square btn-ghost">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                          d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                      </svg>
+                    </a>
+                  </form>
+                </div>
+              </div>
+            </li>
 
+            <%})}else{%>
+
+              <li class="list-row">
+                Non hai ancora effettuato prenotazioni!
+              </li>
+
+              <%}%>
       </ul>
     </div>
     <div class="pb-20 pt-5 flex justify-center">
-      <fieldset class="fieldset lg:basis-3/4 w-xs bg-base-200 border border-base-300 p-4 rounded-box">
-        <legend class="fieldset-legend">Nuova prenotazione</legend>
+      <form method="POST" action="/logged/newBucchin" id="newBucchinForm">
+        <fieldset class="fieldset lg:basis-3/4 w-xs bg-base-200 border border-base-300 p-4 rounded-box">
+          <legend class="fieldset-legend">Nuova prenotazione</legend>
 
-        <label class="fieldset-label">Data</label>
-        <calendar-date class="cally bg-base-100 border border-base-300 shadow-lg rounded-box">
-          <svg aria-label="Previous" class="size-4" slot="previous" xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24">
-            <path fill="currentColor" d="M15.75 19.5 8.25 12l7.5-7.5"></path>
-          </svg>
-          <svg aria-label="Next" class="size-4" slot="next" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path fill="currentColor" d="m8.25 4.5 7.5 7.5-7.5 7.5"></path>
-          </svg>
-          <calendar-month></calendar-month>
-        </calendar-date>
+          <label class="fieldset-label" for="date">Data</label>
 
-        <label class="fieldset-label pt-3">Inizio prenotazione</label>
-        <select class="select">
-          <option>07:00</option>
-          <option>08:30</option>
-          <option>10:00</option>
-          <option>11:30</option>
-          <option>13:00</option>
-          <option>14:30</option>
-          <option>16:00</option>
-          <option>17:30</option>
-          <option>19:00</option>
-          <option>19:00</option>
-        </select>
+          <input type="text" name="date" class="input pika-single" id="myDatepicker" hidden>
+          <div class="text-md pt-2 text-red-500 underline" id="errorMessage" hidden>Il campo data è obbligatorio!</div>
+          <div class="list-row" id="copiedData" hidden>
+            <div>
+              <div class="text-lg pt-2">Stai copiando gli orari: <div class="tooltip z-10" data-tip="Annulla">
+                  <a class="btn btn-square btn-ghost" onclick="revertCopy()">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                      stroke="currentColor" class="size-6">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                    </svg>
 
-        <label class="fieldset-label">Fine prenotazione</label>
-        <select class="select">
-          <option>08:30</option>
-          <option>10:00</option>
-          <option>11:30</option>
-          <option>13:00</option>
-          <option>14:30</option>
-          <option>16:00</option>
-          <option>17:30</option>
-          <option>19:00</option>
-          <option>19:00</option>
-          <option>20:30</option>
-        </select>
-        <div class="pt-5">
-        <input type="submit" class="btn btn-primary" value="Prenota" />
-      </div>
-        <a class="text-xs opacity-60 tracking-wide italic pt-2"><b><u>BETA</u></b>: Per avere sessioni divise in una stessa giornata occorre effettuare più prenotazioni</a>
-      </fieldset>
+                  </a>
+                </div>
+              </div>
+              <div class="text-xs uppercase font-semibold opacity-60" id="copiedHours"></div>
+              <input type="text" id="copiedHoursInput" name="copiedHoursInput" hidden value="">
+            </div>
+            <div class="flex justify-end">
 
+
+            </div>
+          </div>
+
+          <label class="fieldset-label pt-3" id="startHourLabel" for="startHour">Inizio prenotazione</label>
+          <select name="startHour" id="startHour" class="select">
+            <option>07:00</option>
+            <option>08:30</option>
+            <option>10:00</option>
+            <option>11:30</option>
+            <option>13:00</option>
+            <option>14:30</option>
+            <option>16:00</option>
+            <option>17:30</option>
+            <option>19:00</option>
+            <option>19:00</option>
+          </select>
+
+          <label class="fieldset-label" id="endHourLabel" for="endHour">Fine prenotazione</label>
+          <select name="endHour" id="endHour" class="select">
+            <option>08:30</option>
+            <option>10:00</option>
+            <option>11:30</option>
+            <option>13:00</option>
+            <option>14:30</option>
+            <option>16:00</option>
+            <option>17:30</option>
+            <option>19:00</option>
+            <option>19:00</option>
+            <option>20:30</option>
+          </select>
+          <div class="pt-5">
+            <input type="submit" class="btn btn-primary" value="Prenota" />
+          </div>
+          <a class="text-xs opacity-60 tracking-wide italic pt-2"><b><u>BETA</u></b>: Per avere sessioni divise in una
+            stessa giornata occorre effettuare più prenotazioni</a>
+        </fieldset>
+      </form>
     </div>
   </div>
-    <%- include('./partials/footerLogged'); %>
+
+  <script>
+
+    function copyInCurrentDate(index) {
+      // Nascondi i campi di orario
+      document.getElementById("startHour").hidden = true;
+      document.getElementById("endHour").hidden = true;
+      document.getElementById("startHourLabel").hidden = true;
+      document.getElementById("endHourLabel").hidden = true;
+
+      // Mostra la sezione con gli orari copiati
+      document.getElementById("copiedData").removeAttribute("hidden");
+
+      // Prendi il testo dell'orario dal div corrispondente all'indice
+      let copiedText = document.getElementById(`copyHours${index}`).textContent;
+
+      // Imposta il testo nel div che mostra l'orario copiato
+      document.getElementById("copiedHours").textContent = copiedText;
+
+      // Imposta il value dell'input hidden con l'orario copiato
+      document.getElementById("copiedHoursInput").value = copiedText.trim();
+    }
+
+    function revertCopy() {
+      // Mostra nuovamente i campi di orario
+      document.getElementById("startHour").hidden = false;
+      document.getElementById("endHour").hidden = false;
+      document.getElementById("startHourLabel").hidden = false;
+      document.getElementById("endHourLabel").hidden = false;
+
+      // Nascondi la sezione degli orari copiati
+      document.getElementById("copiedData").hidden = true;
+
+      // Resetta il value dell'input hidden
+      document.getElementById("copiedHoursInput").value = ""; //TODO Cambiare sto cazzo di value
+    }
+
+    var picker = new Pikaday({
+      field: document.getElementById('myDatepicker'),
+      firstDay: 1,
+      format: 'YYYYMD',
+      toString(date, format) {
+        // you should do formatting based on the passed format,
+        // but we will just return 'D/M/YYYY' for simplicity
+        let day = date.getDate();
+
+        if(day < 10)
+          day = `0${day}`
+
+        let month = date.getMonth() + 1;
+        if(month < 10)
+          month = `0${month}`
+
+        let year = date.getFullYear();
+        return `${year}/${month}/${day}`;
+      },
+      parse(dateString, format) {
+        // dateString is the result of `toString` method
+        const parts = dateString.split('/');
+        const year = parseInt(parts[0], 10);
+        const month = parseInt(parts[1], 10) - 1;
+        const day = parseInt(parts[2], 10);
+        return new Date(year, month, day);
+      },
+      disableDayFn: function (date) {
+        // Disable sunday
+        return (date.getDay() === 0);
+      },
+      minDate: new Date(),
+      bound: false
+
+    });
+
+
+    document.getElementById('newBucchinForm').addEventListener('submit', function(event) {
+    // Recupera il valore dell'input hidden
+    var copiedHoursValue = document.getElementById('myDatepicker').value;
+    
+    // Se il campo è vuoto, impedisci il submit e mostra l'errore
+    if (!copiedHoursValue) {
+      event.preventDefault(); // Impedisce l'invio del form
+      var errorMessage = document.getElementById('errorMessage');
+      errorMessage.removeAttribute("hidden");
+    }
+  });
+
+
+  </script>
+  <style>
+    .pika-single {
+      z-index: 0;
+    }
+  </style>
+  <%- include('./partials/footerLogged'); %>

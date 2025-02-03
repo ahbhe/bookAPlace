@@ -40,7 +40,10 @@
     
   <a class="avatar" href="/logged/myProfile">
     <div class="w-10 rounded-full">
-      <img src="/assets/imgs/image.png" />
+      <%if(user.img ==''){%>
+        <img class="transition duration-500 group-hover:grayscale group-hover:blur-2xl z-0"
+            src="/assets/imgs/defaultProfile.png" />
+            <%}%>
     </div>
   </a>
   </div>
