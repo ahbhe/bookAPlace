@@ -7,6 +7,8 @@ exports.get_ManageBookings = (req, res) =>{
 }
 
 exports.get_MyProfile = (req, res) =>{
+
+    console.log(req.user)
     res.render('myProfileLogged');
 }
 

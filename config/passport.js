@@ -19,7 +19,13 @@ module.exports = function (passport) {
         bcrypt.compare(password, user.password, (err, isMatch) => {
           if (err) throw err;
           if (isMatch) {
-            return done(null, user);
+            if (!user.validated) {
+              return done(null, false, {
+                message: "NOT_VALIDATED",
+              });
+            } else {
+              return done(null, user);
+            }
           } else {
             //TODO Alert password errata
             return done(null, false, { message: "Password incorrect" });

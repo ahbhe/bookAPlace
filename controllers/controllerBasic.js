@@ -106,33 +106,44 @@ exports.post_Register = (req, res) => {
     }
   });
 };
+
 exports.get_mailLinkClicked = (req, res) => {
   if (req.user) {
-    res.redirect("/logged/allBucchins");
+    return res.redirect("/logged/allBucchins"); //Il return rompe il flusso
   } else {
     const id = req.params.id;
+    let redirected = 0;
 
     User.findById(id)
       .then((user) => {
         if (!user) {
+          redirected = 1;
+
           return res.redirect("/err/404"); // ID non valido
-        }
+        } else {
+          if (user.validated) {
+            redirected = 1;
 
-        if (user.validated) {
-          return res.redirect("/err/404"); // Link già usato
+            return res.redirect("/login"); // Link già usato
+          }
         }
-
         // Aggiorna l'utente e aspetta la conferma prima di procedere
         return User.findByIdAndUpdate(id, { validated: true }, { new: true });
       })
       .then((updatedUser) => {
-        if (!updatedUser) {
-          return res.redirect("/err/404"); // Fallimento nell'update
+        if (!redirected) {
+          if (!updatedUser) {
+            return res.redirect("/err/404"); // Fallimento nell'update
+          } else {
+            //login automatico
+            req.logIn(updatedUser, function (err) {
+              if (err) {
+                return next(err);
+              }
+              return res.redirect("/logged/manageBucchins");
+            });
+          }
         }
-
-        // TODO: Implementare login automatico
-
-        res.redirect("/logged/myProfile"); // Reindirizza dopo l'update
       })
       .catch((err) => {
         console.error(err);
@@ -147,13 +158,18 @@ exports.post_Login = (req, res, next) => {
       return next(err);
     }
 
-    /*         console.log("ERR: " + err)
-        console.log(user)
-        console.log("INFO: "+info) */
+    console.log("ERR: " + err);
+    console.log(user);
+    console.log(info);
 
     if (!user) {
-      console.log("ERRATO?");
-      return res.redirect("/login");
+      console.log("Errore nel login");
+
+      if ((message = "NOT_VALIDATED")) {
+        res.redirect("/confirmYourEmail");
+      } else {
+        return res.redirect("/login");
+      }
     }
     req.logIn(user, function (err) {
       if (err) {

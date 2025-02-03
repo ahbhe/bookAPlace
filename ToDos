@@ -6,7 +6,6 @@ Render con data odierna e data selezionata di prenotazione
 ListaPrenotazioni responsive
 Tooltip su user in prenotazioni
 CRUD su prenotazioni
-controlloLogin
 
 Bottoni vari funzionano così così
 
@@ -14,7 +13,5 @@ bookaplacepolito
 44LQvfV3RziMtre4
 
 Capire come cambiare in modo furbo i localhost nel nodemailer
-
-CHECK VALIDATED IN LOGIN
 
 TODO rivedo login
