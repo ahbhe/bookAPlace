@@ -9,3 +9,10 @@ exports.get_ManageBookings = (req, res) =>{
 exports.get_MyProfile = (req, res) =>{
     res.render('myProfileLogged');
 }
+
+exports.get_Logout = (req, res) => {
+    req.logout(function(err) {
+        if (err) { return next(err); }
+        res.redirect('/');
+      });
+}

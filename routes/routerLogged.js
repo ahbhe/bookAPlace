@@ -1,15 +1,18 @@
 const express = require('express');
 const controllerLogged = require('../controllers/controllerLogged.js');
-
+const utils = require('../config/utils.js');
 const router = express.Router();
 
 router.route('/allBucchins')
-    .get(controllerLogged.get_AllBookingsLogged);
+    .get(utils.userCheck, controllerLogged.get_AllBookingsLogged);
 
 router.route('/manageBucchins')
-    .get(controllerLogged.get_ManageBookings);
+    .get(utils.userCheck, controllerLogged.get_ManageBookings);
 
 router.route('/myProfile')
-    .get(controllerLogged.get_MyProfile);
+    .get(utils.userCheck, controllerLogged.get_MyProfile);
+
+router.route('/logout')
+    .get(utils.userCheck, controllerLogged.get_Logout);
 
 module.exports = router;

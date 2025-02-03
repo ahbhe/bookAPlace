@@ -36,10 +36,10 @@ module.exports = function (passport) {
   passport.deserializeUser(function (id, done) {
     User.findById(id)
       .then((user) => {
-        done(user);
+        done(null, user); //NB, il primo parametro di done deve essere null per segnalare la mancanza di errori
       })
       .catch((err) => {
-        console.error(err);
+        done(err, null); //Passa errore al posto di null, giustamente
       });
   });
 };
