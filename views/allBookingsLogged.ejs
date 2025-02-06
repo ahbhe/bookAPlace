@@ -1,311 +1,135 @@
 <%- include('./partials/headerLogged'); %>
-    <div class="flex  items-center justify-center min-h-screen">
+  <!--PIKADAY CDN-->
+  <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
 
-        <div class="basis-1/4 pl-10">
+  <div class="flex  items-center justify-center min-h-screen">
 
-        <calendar-date first-day-of-week="1"
-            class="cally bg-base-100 border border-base-300 shadow-lg rounded-box">
-            <svg aria-label="Previous" class="size-4" slot="previous" xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24">
-                <path fill="currentColor" d="M15.75 19.5 8.25 12l7.5-7.5"></path>
-            </svg>
-            <svg aria-label="Next" class="size-4" slot="next" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path fill="currentColor" d="m8.25 4.5 7.5 7.5-7.5 7.5"></path>
-            </svg>
-            <calendar-month></calendar-month>
-        </calendar-date>
-        <div class="pt-10">
-          <a class="text-m opacity-60 tracking-wide italic">Posti tenuti da:</a>
-          <div class="avatar-group -space-x-3">
-            <div class="avatar">
-              <div class="w-8">
-                <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-              </div>
-            </div>
-            <div class="avatar">
-              <div class="w-8">
-                <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-              </div>
-            </div>
-            <div class="avatar">
-              <div class="w-8">
-                <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-              </div>
-            </div>
-            <div class="avatar">
-              <div class="w-8">
-                <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-              </div>
+    <div class="basis-1/4 pl-10">
+
+      <form action="/logged/allBucchins" method="GET" id="dateForm">
+        <label class="fieldset-label" for="date">Data</label>
+        <input type="text" name="date" class="input pika-single" id="myDatepicker" hidden>
+      </form>
+
+      <div class="pt-10">
+        <a class="text-m opacity-60 tracking-wide italic">Posti tenuti da:</a>
+        <div class="avatar-group -space-x-3">
+          <div class="avatar">
+            <div class="w-8">
+              <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
             </div>
           </div>
+          <div class="avatar">
+            <div class="w-8">
+              <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+            </div>
+          </div>
+          <div class="avatar">
+            <div class="w-8">
+              <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+            </div>
+          </div>
+          <div class="avatar">
+            <div class="w-8">
+              <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+            </div>
+          </div>
+        </div>
 
         <div class="pt-5">
-        <a class="text-xs opacity-60 tracking-wide italic">Intendo prendere i posti</a>
-        <input type="checkbox" checked="checked" class="checkbox" />
-        <br><button class="btn btn-primary">Conferma</button>
+          <a class="text-xs opacity-60 tracking-wide italic">Intendo prendere i posti</a>
+          <input type="checkbox" checked="checked" class="checkbox" />
+          <br><button class="btn btn-primary">Conferma</button>
+        </div>
       </div>
-    </div></div>
-
-
-        <ul class="list basis-3/4 pt-20 pb-20 bg-base-100 rounded-box shadow-md">
-
-            <li class="p-4 pb-2 text-xs opacity-60 tracking-wide">28/01/2025</li>
-
-
-            <li class="list-row">
-                <div>
-                    <div>07:00 - 08:30</div>
-                    <div class="avatar-group -space-x-3">
-                        <div class="avatar">
-                          <div class="w-8">
-                            <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-                          </div>
-                        </div>
-                        <div class="avatar">
-                          <div class="w-8">
-                            <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-                          </div>
-                        </div>
-                        <div class="avatar">
-                          <div class="w-8">
-                            <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-                          </div>
-                        </div>
-                        <div class="avatar">
-                          <div class="w-8">
-                            <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-                          </div>
-                        </div>
-                        <div class="text-xs uppercase font-semibold opacity-60 pl-7 pt-3">4 posti</div>
-                      </div>
-            </li>
-            <li class="list-row">
-                <div>
-                    <div>08:30 - 10:00</div>
-                    <div class="avatar-group -space-x-3">
-                      <div class="avatar">
-                        <div class="w-8">
-                          <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-                        </div>
-                      </div>
-                      <div class="avatar">
-                        <div class="w-8">
-                          <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-                        </div>
-                      </div>
-                      <div class="avatar">
-                        <div class="w-8">
-                          <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-                        </div>
-                      </div>
-                      <div class="avatar">
-                        <div class="w-8">
-                          <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-                        </div>
-                      </div>
-                      <div class="text-xs uppercase font-semibold opacity-60 pl-7 pt-3">4 posti</div>
-                    </div>
-                </div>
-            </li>
-            <li class="list-row">
-                <div>
-                    <div>10:00 - 11:30</div>
-                    <div class="avatar-group -space-x-3">
-                      <div class="avatar">
-                        <div class="w-8">
-                          <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-                        </div>
-                      </div>
-                      <div class="avatar">
-                        <div class="w-8">
-                          <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-                        </div>
-                      </div>
-                      <div class="avatar">
-                        <div class="w-8">
-                          <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-                        </div>
-                      </div>
-                      <div class="avatar">
-                        <div class="w-8">
-                          <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-                        </div>
-                      </div>
-                      <div class="text-xs uppercase font-semibold opacity-60 pl-7 pt-3">4 posti</div>
-                    </div>
-                </div>
-            </li>
-            <li class="list-row">
-                <div>
-                    <div>11:30 - 13:00</div>
-                    <div class="avatar-group -space-x-3">
-                      <div class="avatar">
-                        <div class="w-8">
-                          <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-                        </div>
-                      </div>
-                      <div class="avatar">
-                        <div class="w-8">
-                          <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-                        </div>
-                      </div>
-                      <div class="avatar">
-                        <div class="w-8">
-                          <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-                        </div>
-                      </div>
-                      <div class="avatar">
-                        <div class="w-8">
-                          <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-                        </div>
-                      </div>
-                      <div class="text-xs uppercase font-semibold opacity-60 pl-7 pt-3">4 posti</div>
-                    </div>
-                </div>
-            </li>
-            <li class="list-row">
-                <div>
-                    <div>13:00 - 14:30</div>
-                    <div class="avatar-group -space-x-3">
-                      <div class="avatar">
-                        <div class="w-8">
-                          <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-                        </div>
-                      </div>
-                      <div class="avatar">
-                        <div class="w-8">
-                          <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-                        </div>
-                      </div>
-                      <div class="avatar">
-                        <div class="w-8">
-                          <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-                        </div>
-                      </div>
-                      <div class="avatar">
-                        <div class="w-8">
-                          <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-                        </div>
-                      </div>
-                      <div class="text-xs uppercase font-semibold opacity-60 pl-7 pt-3">4 posti</div>
-                    </div>
-                </div>
-            </li>
-            <li class="list-row">
-                <div>
-                    <div>14:30 - 16:00</div>
-                    <div class="avatar-group -space-x-3">
-                      <div class="avatar">
-                        <div class="w-8">
-                          <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-                        </div>
-                      </div>
-                      <div class="avatar">
-                        <div class="w-8">
-                          <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-                        </div>
-                      </div>
-                      <div class="avatar">
-                        <div class="w-8">
-                          <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-                        </div>
-                      </div>
-                      <div class="avatar">
-                        <div class="w-8">
-                          <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-                        </div>
-                      </div>
-                      <div class="text-xs uppercase font-semibold opacity-60 pl-7 pt-3">4 posti</div>
-                    </div>
-                </div>
-            </li>
-            <li class="list-row">
-                <div>
-                    <div>16:00 - 17:30</div>
-                    <div class="avatar-group -space-x-3">
-                      <div class="avatar">
-                        <div class="w-8">
-                          <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-                        </div>
-                      </div>
-                      <div class="avatar">
-                        <div class="w-8">
-                          <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-                        </div>
-                      </div>
-                      <div class="avatar">
-                        <div class="w-8">
-                          <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-                        </div>
-                      </div>
-                      <div class="avatar">
-                        <div class="w-8">
-                          <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-                        </div>
-                      </div>
-                      <div class="text-xs uppercase font-semibold opacity-60 pl-7 pt-3">4 posti</div>
-                    </div>
-                </div>
-            </li>
-            <li class="list-row">
-                <div>
-                    <div>17:30 - 19:00</div>
-                    <div class="avatar-group -space-x-3">
-                      <div class="avatar">
-                        <div class="w-8">
-                          <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-                        </div>
-                      </div>
-                      <div class="avatar">
-                        <div class="w-8">
-                          <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-                        </div>
-                      </div>
-                      <div class="avatar">
-                        <div class="w-8">
-                          <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-                        </div>
-                      </div>
-                      <div class="avatar">
-                        <div class="w-8">
-                          <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-                        </div>
-                      </div>
-                      <div class="text-xs uppercase font-semibold opacity-60 pl-7 pt-3">4 posti</div>
-                    </div>
-                </div>
-                
-            </li>
-            <li class="list-row">
-                <div>
-                    <div>19:00 - 20:30</div>
-                    <div class="avatar-group -space-x-3">
-                      <div class="avatar">
-                        <div class="w-8">
-                          <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-                        </div>
-                      </div>
-                      <div class="avatar">
-                        <div class="w-8">
-                          <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-                        </div>
-                      </div>
-                      <div class="avatar">
-                        <div class="w-8">
-                          <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-                        </div>
-                      </div>
-                      <div class="avatar">
-                        <div class="w-8">
-                          <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-                        </div>
-                      </div>
-                      <div class="text-xs uppercase font-semibold opacity-60 pl-7 pt-3">4 posti</div>
-                    </div>
-                </div>
-            </li>
-        </ul>
-        
-
     </div>
-    <%- include('./partials/footerLogged'); %>
+
+
+    <ul class="list basis-3/4 pt-20 pb-20 bg-base-100 rounded-box shadow-md">
+
+      <li class="p-4 pb-2 text-xs opacity-60 tracking-wide">
+        <%=date%>
+      </li>
+      <% attendances.forEach( (attendance)=>{%>
+
+        <li class="list-row">
+          <div>
+            <div>
+              <%=`${attendance.startHour[0]}${attendance.startHour[1]}:${attendance.startHour[2]}${attendance.startHour[3]}
+                - ${attendance.endHour[0]}${attendance.endHour[1]}:${attendance.endHour[2]}${attendance.endHour[3]}`%>
+            </div>
+            <% if(attendance.users.length>0){%>
+              <div class="avatar-group -space-x-4 overflow-visible"> <!-- Aggiunto overflow-visible -->
+                <% attendance.users.forEach((user)=> { %>
+                  <div class="tooltip z-50" data-tip="<%=` ${user.nome} ${user.cognome} `%>"> <!-- Aggiunto z-50 -->
+                    <div class="avatar relative"> <!-- Aggiunto relative -->
+                      <div class="w-8">
+                        <% if (user.img) { %>
+                          <img src="<%= user.img %>" />
+                          <% } else { %>
+                            <img src="/assets/imgs/defaultProfile.png" />
+                            <% } %>
+                      </div>
+                    </div>
+                  </div>
+                  <% }) %>
+                    <div class="text-xs uppercase font-semibold opacity-60 pl-7 pt-3">
+                      <%= attendance.users.length %> posti
+                    </div>
+              </div>
+              <%} else{%>
+                <div class="text-xs uppercase font-semibold opacity-60">Non occorre tenere posti</div>
+                <%}%>
+          </div>
+        </li>
+        <%})%>
+    </ul>
+
+
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      var form = document.getElementById("dateForm");
+      var picker = new Pikaday({
+        field: document.getElementById('myDatepicker'),
+        firstDay: 1,
+        format: 'YYYYMD', onSelect: function (date) {
+          form.submit(); // Invia automaticamente il form quando si seleziona una data
+        },
+        toString(date, format) {
+          // you should do formatting based on the passed format,
+          // but we will just return 'D/M/YYYY' for simplicity
+          let day = date.getDate();
+
+          if (day < 10)
+            day = `0${day}`
+
+          let month = date.getMonth() + 1;
+          if (month < 10)
+            month = `0${month}`
+
+          let year = date.getFullYear();
+          return `${year}/${month}/${day}`;
+        },
+        parse(dateString, format) {
+          // dateString is the result of `toString` method
+          const parts = dateString.split('/');
+          const year = parseInt(parts[0], 10);
+          const month = parseInt(parts[1], 10) - 1;
+          const day = parseInt(parts[2], 10);
+          return new Date(year, month, day);
+        },
+        disableDayFn: function (date) {
+          // Disable sunday
+          return (date.getDay() === 0);
+        },
+        minDate: new Date(),
+        bound: false,
+        setDefaultDate: true,
+        defaultDate: new Date("<%=date%>")
+
+      });
+    });
+  </script>
+  <%- include('./partials/footerLogged'); %>

@@ -18,6 +18,10 @@ router.route('/logout')
 router.route('/newBucchin')
     .post(utils.userCheck, controllerLogged.post_CreateBooking);
 
-router.route('/deleteBucchin/:id')
-    .post(utils.userCheck, controllerLogged.delete_DeleteBooking);
+/* router.route('/deleteBucchin/:id')
+    .post(utils.userCheck, controllerLogged.delete_DeleteBooking); */
+
+router.route('/deleteManyBucchins/:date')
+    .post(utils.userCheck, controllerLogged.delete_DeleteManyBookings)
+
 module.exports = router;

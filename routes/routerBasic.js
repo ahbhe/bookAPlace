@@ -22,4 +22,7 @@ router.route('/confirmYourEmail')
 
 router.route('/confirmYourEmail/:id')
     .get(controllerBasic.get_mailLinkClicked)
+
+
+
 module.exports = router;

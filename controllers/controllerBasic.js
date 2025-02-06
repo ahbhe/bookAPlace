@@ -158,9 +158,6 @@ exports.post_Login = (req, res, next) => {
       return next(err);
     }
 
-    console.log("ERR: " + err);
-    console.log(info);
-
     if (!user) {
       console.log("Errore nel login");
 

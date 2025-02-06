@@ -1,15 +1,63 @@
 const Booking = require("../models/Booking");
-const utils = require("../config/utils")
+const User = require("../models/User");
+const utils = require("../config/utils");
+
 exports.get_AllBookingsLogged = (req, res) => {
-  res.render("allBookingsLogged", { user: req.user });
+  date = req.query.date;
+  if (!date) {
+    date = new Date();
+    month = date.getMonth() + 1;
+    if (month < 10) month = `0${month}`;
+
+    day = date.getDate();
+    if (day < 10) day = `0${day}`;
+    date = `${date.getFullYear()}/${month}/${day}`;
+  }
+
+  attendances=[
+    {startHour:"0700", endHour:"0830", users: new Array()},
+    {startHour:"0830", endHour:"1000", users: new Array()},
+    {startHour:"1000", endHour:"1130", users: new Array()},
+    {startHour:"1130", endHour:"1300", users: new Array()},
+    {startHour:"1300", endHour:"1430", users: new Array()},
+    {startHour:"1430", endHour:"1600", users: new Array()},
+    {startHour:"1600", endHour:"1730", users: new Array()},
+    {startHour:"1730", endHour:"1900", users: new Array()},
+    {startHour:"1900", endHour:"2030", users: new Array()},
+  ];
+  Booking.find({ date: date })
+    .then((bookings) => {
+      users = new Map();
+
+      const userPromises = bookings.map((booking) =>
+        User.findOne({ _id: booking.userId }).then((user) => {
+          if (user) {
+            users.set(user._id.toHexString(), user);
+          }
+        })
+      );
+
+      Promise.all(userPromises).then(() => {
+        if (bookings.length) {
+          attendances = utils.computeAttendance(bookings, users);
+        }
+        res.render("allBookingsLogged", { user: req.user, attendances, date });
+      });
+    })
+    .catch((err) => {
+      console.log("error: " + err);
+    });
 };
 
 exports.get_ManageBookings = (req, res) => {
   Booking.find({ userId: req.user._id })
-    .sort({ date: 1, startHour: 1, endHour:1})
+    .sort({ date: 1, startHour: 1, endHour: 1 })
     .then((bookings) => {
-        compacted_bookings = utils.transformToDictArray(bookings)
-      res.render("manageBookingsLogged", { user: req.user, bookings:compacted_bookings });
+      compacted_bookings = utils.transformToDictArray(bookings);
+      res.render("manageBookingsLogged", {
+        user: req.user,
+        bookings: compacted_bookings,
+      });
     });
 };
 
@@ -38,7 +86,7 @@ exports.post_CreateBooking = (req, res) => {
 
     let nIntervals = hourIntervals.length;
     console.log("Numero di intervalli: ", nIntervals);
-     //07:00 - 08:30 / 08:30 - 10:00 / 11:30 - 13:00 / 14:30 - 16:00 / 19:00 - 20:30
+    //07:00 - 08:30 / 08:30 - 10:00 / 11:30 - 13:00 / 14:30 - 16:00 / 19:00 - 20:30
     // Array per raccogliere tutte le promesse
     let promises = hourIntervals.map((interval) => {
       console.log("Processando intervallo:", interval);
@@ -117,4 +165,16 @@ exports.delete_DeleteBooking = (req, res) => {
   });
 
   res.redirect("/logged/manageBucchins");
+};
+
+exports.delete_DeleteManyBookings = (req, res) => {
+  correctDate = req.params.date.replaceAll("_", "/");
+
+  Booking.deleteMany({ userId: req.user._id, date: correctDate })
+    .catch((err) => {
+      console.log("ERROR DELETING BOOKINGS: " + err);
+    })
+    .then(() => {
+      res.redirect("/logged/manageBucchins");
+    });
 };

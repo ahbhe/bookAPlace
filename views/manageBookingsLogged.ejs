@@ -35,8 +35,9 @@
                 </div>
 
                 <div class="tooltip" data-tip="Elimina">
-                  <form action="/logged/deleteBucchin/<%=booking._id%>" method="POST">
+                  <form action="/logged/deleteManyBucchins/<%=booking.date.replaceAll("/", "_")%>" method="POST">
                     <a onclick="this.parentNode.submit();" class="btn btn-square btn-ghost">
+
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round"

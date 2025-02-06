@@ -20,7 +20,11 @@ TODO modifica descrizione ed immagine
 
 TODO Colori per evidenziare stato date in calendario
 
-TODO Anche le pwd errate sono viste come conferma mail nel login
+TODO TUTTI I PROBLEMI NEL LOGIN sono viste come conferma mail nel login
 
 TODO In un futuro remoto dei modal
 TODO Sort temporale rendering bookings + accorpamento bookings stesso giorno
+
+TODO Check nuova prenotazione con fine orario > inizio orario
+
+TODO Aggiorno assolutamente la prenotazione vecchia se viene creata una nuova più ampia altrimenti va tutto a puttane
