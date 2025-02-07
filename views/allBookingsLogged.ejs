@@ -60,16 +60,17 @@
             </div>
             <% if(attendance.users.length>0){%>
               <div class="avatar-group -space-x-4 overflow-visible"> <!-- Aggiunto overflow-visible -->
-                <% attendance.users.forEach((user)=> { %>
-                  <div class="tooltip z-50" data-tip="<%=` ${user.nome} ${user.cognome} `%>"> <!-- Aggiunto z-50 -->
+                <% attendance.users.forEach((attendanceUser)=> { %>
+                  <div class="tooltip z-50" data-tip="<%=` ${attendanceUser.nome} ${attendanceUser.cognome} `%>">
+                    <!-- Aggiunto z-50 -->
                     <div class="avatar relative"> <!-- Aggiunto relative -->
-                      <div class="w-8">
-                        <% if (user.img) { %>
-                          <img src="<%= user.img %>" />
-                          <% } else { %>
-                            <img src="/assets/imgs/defaultProfile.png" />
-                            <% } %>
-                      </div>
+                          <div class="w-8">
+                            <% if (attendanceUser.img) { %>
+                              <img src="<%= user.img %>" />
+                              <% } else { %>
+                                <img src="/assets/imgs/defaultProfile.png" />
+                          </div>
+                          <%}%>
                     </div>
                   </div>
                   <% }) %>
