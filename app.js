@@ -12,6 +12,7 @@ const routerLogged = require("./routes/routerLogged");
 const routerError = require("./routes/routerError");
 
 
+
 require('./config/passport.js')(passport);
 
 

@@ -1,6 +1,8 @@
 const Booking = require("../models/Booking");
 const User = require("../models/User");
 const utils = require("../config/utils");
+const SeatHolder = require("../models/seatHolder");
+
 
 exports.get_AllBookingsLogged = (req, res) => {
   date = req.query.date;
@@ -14,16 +16,16 @@ exports.get_AllBookingsLogged = (req, res) => {
     date = `${date.getFullYear()}/${month}/${day}`;
   }
 
-  attendances=[
-    {startHour:"0700", endHour:"0830", users: new Array()},
-    {startHour:"0830", endHour:"1000", users: new Array()},
-    {startHour:"1000", endHour:"1130", users: new Array()},
-    {startHour:"1130", endHour:"1300", users: new Array()},
-    {startHour:"1300", endHour:"1430", users: new Array()},
-    {startHour:"1430", endHour:"1600", users: new Array()},
-    {startHour:"1600", endHour:"1730", users: new Array()},
-    {startHour:"1730", endHour:"1900", users: new Array()},
-    {startHour:"1900", endHour:"2030", users: new Array()},
+  attendances = [
+    { startHour: "0700", endHour: "0830", users: new Array() },
+    { startHour: "0830", endHour: "1000", users: new Array() },
+    { startHour: "1000", endHour: "1130", users: new Array() },
+    { startHour: "1130", endHour: "1300", users: new Array() },
+    { startHour: "1300", endHour: "1430", users: new Array() },
+    { startHour: "1430", endHour: "1600", users: new Array() },
+    { startHour: "1600", endHour: "1730", users: new Array() },
+    { startHour: "1730", endHour: "1900", users: new Array() },
+    { startHour: "1900", endHour: "2030", users: new Array() },
   ];
   Booking.find({ date: date })
     .then((bookings) => {
@@ -41,7 +43,29 @@ exports.get_AllBookingsLogged = (req, res) => {
         if (bookings.length) {
           attendances = utils.computeAttendance(bookings, users);
         }
-        res.render("allBookingsLogged", { user: req.user, attendances, date });
+
+        SeatHolder.find({ date: date }).then((seatHolders) => {
+          // Creiamo un array di promesse
+          const promises = seatHolders.map(async (seatHolder) => {
+            const user = await User.findById(seatHolder.userId);
+            if (user) {
+              seatHolder["img"] = user.img;
+              seatHolder["nome"] = user.nome;
+              seatHolder["cognome"] = user.cognome;
+            }
+            return seatHolder;
+          });
+
+          // Aspettiamo che tutte le promesse siano risolte
+          Promise.all(promises).then((updatedSeatHolders) => {
+            res.render("allBookingsLogged", {
+              user: req.user,
+              attendances,
+              date,
+              seatHolders: updatedSeatHolders,
+            });
+          });
+        });
       });
     })
     .catch((err) => {
@@ -178,3 +202,59 @@ exports.delete_DeleteManyBookings = (req, res) => {
       res.redirect("/logged/manageBucchins");
     });
 };
+
+exports.post_toggleseatHolder = (req, res) => {
+
+  SeatHolder.findOne({
+    date: req.body.seatHolderDate,
+    userId: req.user._id,
+  }).then((seatHolder) => {
+    console.log(seatHolder);
+    if (seatHolder) {
+      //doNothing already holding seats
+      if (req.body.willHoldSeats) {
+        date = req.body.seatHolderDate;
+        res.redirect("/logged/allBucchins?date=" + date);
+      } else {
+        //delete seatHolder
+        SeatHolder.deleteOne({
+          date: req.body.seatHolderDate,
+          userId: req.user._id,
+        }).then(() => {
+          date = req.body.seatHolderDate;
+          res.redirect("/logged/allBucchins?date=" + date);
+        });
+      }
+    } else {
+      if (req.body.willHoldSeats) {
+        newseatHolder = {
+          date: req.body.seatHolderDate,
+          userId: req.user._id,
+        };
+
+        SeatHolder.create(newseatHolder).then(() => {
+          date = req.body.seatHolderDate;
+          res.redirect("/logged/allBucchins?date=" + date);
+        });
+      } else {
+        date = req.body.seatHolderDate;
+        res.redirect("/logged/allBucchins?date=" + date);
+      }
+    }
+  });
+};
+
+
+exports.post_editDesc = (req, res) =>{
+  User.findOneAndUpdate(
+    { _id: req.user._id },
+    { $set: { description: req.body.newDescription } },
+    { new: true }
+  ).then((user)=>{
+    res.redirect("/logged/myProfile")
+  });
+}
+
+exports.post_editPic = (req, res) =>{
+  
+}

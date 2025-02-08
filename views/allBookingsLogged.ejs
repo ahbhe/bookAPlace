@@ -13,34 +13,35 @@
 
       <div class="pt-10">
         <a class="text-m opacity-60 tracking-wide italic">Posti tenuti da:</a>
-        <div class="avatar-group -space-x-3">
-          <div class="avatar">
-            <div class="w-8">
-              <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-            </div>
+        <%if(seatHolders.length){%>
+          <div class="avatar-group -space-x-4 overflow-visible"> <!-- Aggiunto overflow-visible -->
+            <% seatHolders.forEach((seatHolder)=> { %>
+              <div class="tooltip z-50" data-tip="<%=` ${seatHolder.nome} ${seatHolder.cognome} `%>">
+                <!-- Aggiunto z-50 -->
+                <div class="avatar relative"> <!-- Aggiunto relative -->
+                  <div class="w-8">
+                    <% if (seatHolder.img) { %>
+                      <img src="<%= user.img %>" />
+                      <% } else { %>
+                        <img src="/assets/imgs/defaultProfile.png" />
+                  </div>
+                  <%}%>
+                </div>
+              </div>
+              <% }) %>
           </div>
-          <div class="avatar">
-            <div class="w-8">
-              <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-            </div>
-          </div>
-          <div class="avatar">
-            <div class="w-8">
-              <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-            </div>
-          </div>
-          <div class="avatar">
-            <div class="w-8">
-              <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-            </div>
-          </div>
-        </div>
+          <%}else{%>
+            <div class="text-md opacity-60 tracking-wide">Ancora nessuno...</div>
+            <%}%>
 
-        <div class="pt-5">
-          <a class="text-xs opacity-60 tracking-wide italic">Intendo prendere i posti</a>
-          <input type="checkbox" checked="checked" class="checkbox" />
-          <br><button class="btn btn-primary">Conferma</button>
-        </div>
+              <div class="pt-5">
+                <form action="/logged/toggleSeatHolder" method="POST" id="seatHolderForm">
+                  <a class="text-xs opacity-60 tracking-wide italic" for="willHoldSeats">Intendo prendere i posti</a>
+                  <input type="text" id="seatHolderDate" name="seatHolderDate" hidden />
+                  <input type="checkbox" class="checkbox" id="willHoldSeats" name="willHoldSeats" />
+                  <br><a type="submit" class="btn btn-primary" id="submitseatHolder">Conferma</a>
+                </form>
+              </div>
       </div>
     </div>
 
@@ -64,13 +65,13 @@
                   <div class="tooltip z-50" data-tip="<%=` ${attendanceUser.nome} ${attendanceUser.cognome} `%>">
                     <!-- Aggiunto z-50 -->
                     <div class="avatar relative"> <!-- Aggiunto relative -->
-                          <div class="w-8">
-                            <% if (attendanceUser.img) { %>
-                              <img src="<%= user.img %>" />
-                              <% } else { %>
-                                <img src="/assets/imgs/defaultProfile.png" />
-                          </div>
-                          <%}%>
+                      <div class="w-8">
+                        <% if (attendanceUser.img) { %>
+                          <img src="<%= user.img %>" />
+                          <% } else { %>
+                            <img src="/assets/imgs/defaultProfile.png" />
+                      </div>
+                      <%}%>
                     </div>
                   </div>
                   <% }) %>
@@ -90,31 +91,59 @@
   </div>
 
   <script>
+    document.getElementById("submitseatHolder").addEventListener("click", (e) => {
+      writeInto = document.getElementById("seatHolderDate");
+      date = document.getElementById("myDatepicker").value;
+      writeInto.value = date;
+
+      console.log(date)
+
+      document.getElementById("seatHolderForm").submit();
+    })
+
+    document.addEventListener("DOMContentLoaded", function () {
+      try {
+        let seatHolders = <%- JSON.stringify(seatHolders || []) %>; // Se null o undefined, assegna un array vuoto
+        console.log(seatHolders)
+        
+        let userId = "<%= user._id %>"; // Assicuriamoci che sia una stringa valida
+
+        let checkbox = document.getElementById("willHoldSeats");
+
+        if (!checkbox) {
+          console.warn("Checkbox per la prenotazione del posto non trovata.");
+          return;
+        }
+
+        let isHoldingSeat = seatHolders.some(seatHolder => seatHolder.userId === userId);
+        checkbox.checked = isHoldingSeat;
+      } catch (error) {
+        console.error("Errore nell'inizializzazione della selezione dei posti:", error);
+      }
+    });
+
+    // Inizializzazione di Pikaday
     document.addEventListener("DOMContentLoaded", function () {
       var form = document.getElementById("dateForm");
+
       var picker = new Pikaday({
         field: document.getElementById('myDatepicker'),
         firstDay: 1,
-        format: 'YYYYMD', onSelect: function (date) {
-          form.submit(); // Invia automaticamente il form quando si seleziona una data
+        format: 'YYYYMD',
+        onSelect: function (date) {
+          form.submit();
         },
         toString(date, format) {
-          // you should do formatting based on the passed format,
-          // but we will just return 'D/M/YYYY' for simplicity
           let day = date.getDate();
-
-          if (day < 10)
-            day = `0${day}`
+          if (day < 10) day = `0${day}`;
 
           let month = date.getMonth() + 1;
-          if (month < 10)
-            month = `0${month}`
+          if (month < 10) month = `0${month}`;
 
           let year = date.getFullYear();
           return `${year}/${month}/${day}`;
         },
         parse(dateString, format) {
-          // dateString is the result of `toString` method
           const parts = dateString.split('/');
           const year = parseInt(parts[0], 10);
           const month = parseInt(parts[1], 10) - 1;
@@ -122,15 +151,16 @@
           return new Date(year, month, day);
         },
         disableDayFn: function (date) {
-          // Disable sunday
-          return (date.getDay() === 0);
+          return date.getDay() === 0; // Disabilita la domenica
         },
         minDate: new Date(),
         bound: false,
         setDefaultDate: true,
-        defaultDate: new Date("<%=date%>")
-
+        defaultDate: new Date("<%= date %>")
       });
     });
+
+
+
   </script>
   <%- include('./partials/footerLogged'); %>

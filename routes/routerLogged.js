@@ -24,4 +24,13 @@ router.route('/newBucchin')
 router.route('/deleteManyBucchins/:date')
     .post(utils.userCheck, controllerLogged.delete_DeleteManyBookings)
 
+router.route('/toggleseatHolder')
+    .post(utils.userCheck, controllerLogged.post_toggleseatHolder);
+
+router.route('/editDesc')
+    .post(utils.userCheck, controllerLogged.post_editDesc);
+
+router.route('/editPic')
+    .post(utils.userCheck, controllerLogged.post_editPic);
+    
 module.exports = router;
