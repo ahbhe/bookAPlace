@@ -1,17 +1,8 @@
-TODO
-Mantenere i temi costanti durante la sessione
-Footer active element
-
-Render con data odierna e data selezionata di prenotazione
-ListaPrenotazioni responsive
-Tooltip su user in prenotazioni
-CRUD su prenotazioni
-
-Bottoni vari funzionano così così
-
-bookaplacepolito
-44LQvfV3RziMtre4
-
+TODO Mantenere i temi costanti durante la sessione
+TODO Footer active element
+TODO ListaPrenotazioni responsive
+TODO link profilo user in prenotazioni
+TODO Bottoni vari funzionano così così
 Capire come cambiare in modo furbo i localhost nel nodemailer
 
 TODO rivedo login
@@ -33,3 +24,6 @@ TODO Eliminazione booking scaduti -> Forse fatto?
 TODO Copia e allbookings capire
 
 TODO Aggiungi amico
+
+TODO Errore dimensione file troppo grande
+

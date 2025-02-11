@@ -1,8 +1,9 @@
 const multer = require("multer");
+const path = require("path");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "uploads/");
+    cb(null, "./public/uploads");
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
@@ -10,10 +11,10 @@ const storage = multer.diskStorage({
   },
 });
 
-const maxSize = 1 * 1000 * 1000;
+const maxSize = 1 * 1000 * 1000; //1MB
 
 // Configure Multer
-const upload = multer({
+exports.upload = multer({
   storage: storage,
   limits: { fileSize: maxSize },
   fileFilter: function (req, file, cb) {
@@ -31,4 +32,4 @@ const upload = multer({
       "Error: File upload only supports the following filetypes - " + filetypes
     );
   },
-}).single("profilePic");
+});

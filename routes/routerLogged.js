@@ -1,6 +1,7 @@
 const express = require('express');
 const controllerLogged = require('../controllers/controllerLogged.js');
 const utils = require('../config/utils.js');
+const multer = require('../config/multer')
 const router = express.Router();
 
 router.route('/allBucchins')
@@ -31,6 +32,9 @@ router.route('/editDesc')
     .post(utils.userCheck, controllerLogged.post_editDesc);
 
 router.route('/editPic')
-    .post(utils.userCheck, controllerLogged.post_editPic);
+    .post(utils.userCheck, multer.upload.single("profilePic"), controllerLogged.post_editPic);
+    //NB QUELLO CHE C'È IN SINGLE DEVE ESSERE UGUALE AL NAME DELL'INPUT
     
+router.route('/profile/:id')
+    .get(utils.userCheck, controllerLogged.get_profile);
 module.exports = router;

@@ -19,13 +19,16 @@
               <div class="tooltip z-50" data-tip="<%=` ${seatHolder.nome} ${seatHolder.cognome} `%>">
                 <!-- Aggiunto z-50 -->
                 <div class="avatar relative"> <!-- Aggiunto relative -->
-                  <div class="w-8">
-                    <% if (seatHolder.img) { %>
-                      <img src="<%= user.img %>" />
+                  <%if(seatHolder.userId+"" == user._id+""){%>
+                  <div class="w-8 rounded-full" href="/logged/myProfile%>">
+                    <%}else{%>
+                      <div class="w-8 rounded-full" href="/logged/profile/<%= seatHolder.userId%>">
+                    <%} if (seatHolder.img) { %>
+                      <img src="/<%= seatHolder.img %>" />
                       <% } else { %>
                         <img src="/assets/imgs/defaultProfile.png" />
-                  </div>
-                  <%}%>
+                        <%}%>
+                      </div>
                 </div>
               </div>
               <% }) %>
@@ -65,19 +68,27 @@
                   <div class="tooltip z-50" data-tip="<%=` ${attendanceUser.nome} ${attendanceUser.cognome} `%>">
                     <!-- Aggiunto z-50 -->
                     <div class="avatar relative"> <!-- Aggiunto relative -->
-                      <div class="w-8">
-                        <% if (attendanceUser.img) { %>
-                          <img src="<%= user.img %>" />
+                      <%if(""+attendanceUser._id == user._id+""){%>
+                        <a href="/logged/myProfile">
+                      <div class="w-8" >
+                        <%}else{%>
+                          <a href="/logged/profile/<%= attendanceUser._id%>">
+                          <div class="w-8">
+
+                        <%} if (attendanceUser.img) { %>
+                          <img src="/<%= attendanceUser.img %>" />
                           <% } else { %>
                             <img src="/assets/imgs/defaultProfile.png" />
-                      </div>
-                      <%}%>
+                            <%}%>
+                          </div>
+                        </a>
+                      
                     </div>
                   </div>
                   <% }) %>
-                    <div class="text-xs uppercase font-semibold opacity-60 pl-7 pt-3">
-                      <%= attendance.users.length %> posti
-                    </div>
+              </div>
+              <div class="text-xs uppercase font-semibold opacity-60">
+                <%= attendance.users.length %> posti
               </div>
               <%} else{%>
                 <div class="text-xs uppercase font-semibold opacity-60">Non occorre tenere posti</div>
@@ -159,7 +170,6 @@
         defaultDate: new Date("<%= date %>")
       });
     });
-
 
 
   </script>

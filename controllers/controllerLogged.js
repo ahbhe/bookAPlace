@@ -2,6 +2,7 @@ const Booking = require("../models/Booking");
 const User = require("../models/User");
 const utils = require("../config/utils");
 const SeatHolder = require("../models/seatHolder");
+const fs =  require("fs");
 
 
 exports.get_AllBookingsLogged = (req, res) => {
@@ -256,5 +257,32 @@ exports.post_editDesc = (req, res) =>{
 }
 
 exports.post_editPic = (req, res) =>{
+  console.log(req.file);
+  //req.file.path contiene il percorso
+
+  newImgPath = req.file.path.replace("public/", "");
+  oldImgPath = `./public/${req.user.img}`;
+
+  console.log(newImgPath)
+  User.findOneAndUpdate({_id: req.user._id},
+    {$set: {img: newImgPath}},
+    {new: true}
+  ).then((user) =>{
+    //Cancella vecchia immagine
+    console.log(oldImgPath)
+    if(oldImgPath != "./public/"){
+      fs.unlink(oldImgPath, (err) => {
+        if (err) throw err;
+        console.log('path/file.txt was deleted');
+      }); 
+    }
+    res.redirect("/logged/myProfile")
+  })
   
 }
+
+exports.get_profile = ((req, res) =>{
+  User.findById(req.params.id).then((user)=>{
+    res.render('profileLogged', {selectedUser: user, user:req.user});
+  })
+})
