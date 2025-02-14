@@ -2,10 +2,10 @@
   <!--PIKADAY CDN-->
   <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
 
-  <div class="flex  items-center justify-center min-h-screen">
+  <div class="md:flex md:items-center md:justify-center min-h-screen">
 
     <div class="basis-1/4 pl-10">
-
+      <div class="pt-20 md:pr-5 lg:pr-0">
       <form action="/logged/allBucchins" method="GET" id="dateForm">
         <label class="fieldset-label" for="date">Data</label>
         <input type="text" name="date" class="input pika-single" id="myDatepicker" hidden>
@@ -20,15 +20,18 @@
                 <!-- Aggiunto z-50 -->
                 <div class="avatar relative"> <!-- Aggiunto relative -->
                   <%if(seatHolder.userId+"" == user._id+""){%>
-                  <div class="w-8 rounded-full" href="/logged/myProfile%>">
+                  <a  href="/logged/myProfile%>">
+                  <div class="w-8 h-8 rounded-full">
                     <%}else{%>
-                      <div class="w-8 rounded-full" href="/logged/profile/<%= seatHolder.userId%>">
+                      <a  href="/logged/profile/<%= seatHolder.userId%>">
+                      <div class="w-8 h-8 rounded-full" href="/logged/profile/<%= seatHolder.userId%>">
                     <%} if (seatHolder.img) { %>
                       <img src="/<%= seatHolder.img %>" />
                       <% } else { %>
                         <img src="/assets/imgs/defaultProfile.png" />
                         <%}%>
                       </div>
+                      </a>
                 </div>
               </div>
               <% }) %>
@@ -47,6 +50,7 @@
               </div>
       </div>
     </div>
+  </div>
 
 
     <ul class="list basis-3/4 pt-20 pb-20 bg-base-100 rounded-box shadow-md">
@@ -70,10 +74,10 @@
                     <div class="avatar relative"> <!-- Aggiunto relative -->
                       <%if(""+attendanceUser._id == user._id+""){%>
                         <a href="/logged/myProfile">
-                      <div class="w-8" >
+                      <div class="w-8 h-8 overflow-hidden" >
                         <%}else{%>
                           <a href="/logged/profile/<%= attendanceUser._id%>">
-                          <div class="w-8">
+                          <div class="w-8 h-8 overflow-hidden ">
 
                         <%} if (attendanceUser.img) { %>
                           <img src="/<%= attendanceUser.img %>" />
@@ -173,4 +177,13 @@
 
 
   </script>
+    <style>
+      .pika-single {
+        z-index: 0;
+      }
+      .avatar{
+        z-index: 0;
+
+      }
+    </style>
   <%- include('./partials/footerLogged'); %>

@@ -33,3 +33,10 @@ exports.upload = multer({
     );
   },
 });
+
+exports.fileSizeLimitErrorHandler = (err, req, res, next) =>{
+  if(err){
+    req.message = "TOO_LARGE"
+  }
+  next()
+}

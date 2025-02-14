@@ -32,7 +32,7 @@ router.route('/editDesc')
     .post(utils.userCheck, controllerLogged.post_editDesc);
 
 router.route('/editPic')
-    .post(utils.userCheck, multer.upload.single("profilePic"), controllerLogged.post_editPic);
+    .post(utils.userCheck, multer.upload.single("profilePic"), multer.fileSizeLimitErrorHandler, controllerLogged.post_editPic);
     //NB QUELLO CHE C'È IN SINGLE DEVE ESSERE UGUALE AL NAME DELL'INPUT
     
 router.route('/profile/:id')

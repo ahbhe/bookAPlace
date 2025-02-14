@@ -23,6 +23,7 @@ router.route('/confirmYourEmail')
 router.route('/confirmYourEmail/:id')
     .get(controllerBasic.get_mailLinkClicked)
 
-
+    router.route('/profile/:id')
+    .get(controllerBasic.get_profile);
 
 module.exports = router;

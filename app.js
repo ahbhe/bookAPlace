@@ -5,6 +5,8 @@ const session = require('express-session')
 const methodOverride = require('method-override')
 var bodyParser = require('body-parser')
 
+const flash = require('express-flash')
+
 const app = express();
 
 const routerBasic = require("./routes/routerBasic");
@@ -27,6 +29,8 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use(methodOverride('X-HTTP-Method-Override'));
 app.use(methodOverride('_method'))
+
+app.use(flash())
 
 
 app.use(session({

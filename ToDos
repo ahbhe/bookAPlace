@@ -1,29 +1,24 @@
 TODO Mantenere i temi costanti durante la sessione
 TODO Footer active element
 TODO ListaPrenotazioni responsive
-TODO link profilo user in prenotazioni
 TODO Bottoni vari funzionano così così
 Capire come cambiare in modo furbo i localhost nel nodemailer
 
 TODO rivedo login
 
-TODO modifica descrizione ed immagine
+TODO Colori per evidenziare stato date in calendarion
 
-TODO Colori per evidenziare stato date in calendario
-
-TODO TUTTI I PROBLEMI NEL LOGIN sono viste come conferma mail nel login
+TODO TUTTI I PROBLEMI NEL LOGIN sono viste come conferma mail nel login -> Credo fatto
 
 TODO In un futuro remoto dei modal
 
-TODO Check nuova prenotazione con fine orario > inizio orario
-
 TODO Aggiorno assolutamente la prenotazione vecchia se viene creata una nuova più ampia altrimenti va tutto a puttane
 
-TODO Eliminazione booking scaduti -> Forse fatto?
+TODO Eliminazione booking scaduti -> Mi sa fatto!
 
 TODO Copia e allbookings capire
 
-TODO Aggiungi amico
+TODO Profile da telefono scrollabile terribile
 
-TODO Errore dimensione file troppo grande
+TODO Aggiungi amico
 

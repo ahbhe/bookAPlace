@@ -1,9 +1,8 @@
 const Booking = require("../models/Booking");
 const User = require("../models/User");
 const utils = require("../config/utils");
-const SeatHolder = require("../models/seatHolder");
-const fs =  require("fs");
-
+const SeatHolder = require("../models/SeatHolder");
+const fs = require("fs");
 
 exports.get_AllBookingsLogged = (req, res) => {
   date = req.query.date;
@@ -154,33 +153,38 @@ exports.post_CreateBooking = (req, res) => {
         res.redirect("/err/500");
       });
   } else {
-    const newBooking = {
-      date: req.body.date,
-      userId: req.user._id,
-      startHour: req.body.startHour,
-      endHour: req.body.endHour,
-    };
+    if (req.body.startHour > req.body.endHour) {
+      req.flash("error", "Non puoi prenotare uno slot con ora di fine maggiore di quella di inizio!")
+      return res.redirect("/logged/manageBucchins")
+    } else {
+      const newBooking = {
+        date: req.body.date,
+        userId: req.user._id,
+        startHour: req.body.startHour,
+        endHour: req.body.endHour,
+      };
 
-    Booking.findOne({
-      date: newBooking.date,
-      userId: newBooking.userId,
-      startHour: newBooking.startHour,
-      endHour: newBooking.endHour,
-    })
-      .then((booking) => {
-        if (booking) {
-          console.log("Booking already exists!");
-          res.redirect("/logged/manageBucchins");
-        } else {
-          Booking.create(newBooking);
-          res.redirect("/logged/manageBucchins");
-        }
+      Booking.findOne({
+        date: newBooking.date,
+        userId: newBooking.userId,
+        startHour: newBooking.startHour,
+        endHour: newBooking.endHour,
       })
-      .catch((err) => {
-        console.log(err);
-        res.redirect("/err/500");
-        return;
-      });
+        .then((booking) => {
+          if (booking) {
+            console.log("Booking already exists!");
+            res.redirect("/logged/manageBucchins");
+          } else {
+            Booking.create(newBooking);
+            res.redirect("/logged/manageBucchins");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          res.redirect("/err/500");
+          return;
+        });
+    }
   }
 };
 
@@ -205,7 +209,6 @@ exports.delete_DeleteManyBookings = (req, res) => {
 };
 
 exports.post_toggleseatHolder = (req, res) => {
-
   SeatHolder.findOne({
     date: req.body.seatHolderDate,
     userId: req.user._id,
@@ -245,44 +248,53 @@ exports.post_toggleseatHolder = (req, res) => {
   });
 };
 
-
-exports.post_editDesc = (req, res) =>{
+exports.post_editDesc = (req, res) => {
   User.findOneAndUpdate(
     { _id: req.user._id },
     { $set: { description: req.body.newDescription } },
     { new: true }
-  ).then((user)=>{
-    res.redirect("/logged/myProfile")
+  ).then((user) => {
+    res.redirect("/logged/myProfile");
   });
-}
+};
 
-exports.post_editPic = (req, res) =>{
-  console.log(req.file);
+exports.post_editPic = (req, res) => {
+  //console.log(req.file);
+
   //req.file.path contiene il percorso
+
+  //Gestione errore file troppo grande catturato nel middleware apposito nel file multer.js
+  if (req.message == "TOO_LARGE") {
+    req.flash(
+      "error",
+      "Il file selezionato supera la dimensione massima (1MB)"
+    );
+    return res.redirect("/logged/myProfile");
+  }
 
   newImgPath = req.file.path.replace("public/", "");
   oldImgPath = `./public/${req.user.img}`;
 
-  console.log(newImgPath)
-  User.findOneAndUpdate({_id: req.user._id},
-    {$set: {img: newImgPath}},
-    {new: true}
-  ).then((user) =>{
+  console.log(newImgPath);
+  User.findOneAndUpdate(
+    { _id: req.user._id },
+    { $set: { img: newImgPath } },
+    { new: true }
+  ).then((user) => {
     //Cancella vecchia immagine
-    console.log(oldImgPath)
-    if(oldImgPath != "./public/"){
+    console.log(oldImgPath);
+    if (oldImgPath != "./public/") {
       fs.unlink(oldImgPath, (err) => {
         if (err) throw err;
-        console.log('path/file.txt was deleted');
-      }); 
+        console.log("path/file.txt was deleted");
+      });
     }
-    res.redirect("/logged/myProfile")
-  })
-  
-}
+    res.redirect("/logged/myProfile");
+  });
+};
 
-exports.get_profile = ((req, res) =>{
-  User.findById(req.params.id).then((user)=>{
-    res.render('profileLogged', {selectedUser: user, user:req.user});
-  })
-})
+exports.get_profile = (req, res) => {
+  User.findById(req.params.id).then((user) => {
+    res.render("profileLogged", { selectedUser: user, user: req.user });
+  });
+};
