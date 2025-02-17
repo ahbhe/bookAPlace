@@ -81,3 +81,81 @@ exports.computeAttendance = (bookings, users) =>{
 
   return attendance;
 }
+
+exports.findMissingIntervals =(bookings, newBookings) =>{
+  const timeToMinutes = (time) => {
+      let [h, m] = time.split(":").map(Number);
+      return h * 60 + m;
+  };
+
+  const minutesToTime = (minutes) => {
+      let h = Math.floor(minutes / 60);
+      let m = minutes % 60;
+      return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
+  };
+
+  if (newBookings.length === 0) return [];
+
+  // Prendiamo il primo elemento di newBookings come riferimento per userId e altri parametri
+  const referenceBooking = newBookings[0];
+  const referenceData = { userId: referenceBooking.userId, date: referenceBooking.date };
+
+  let bookingIntervals = bookings.map(booking => ({
+      start: timeToMinutes(booking.startHour),
+      end: timeToMinutes(booking.endHour)
+  }));
+
+  let newBookingIntervals = newBookings.map(booking => ({
+      start: timeToMinutes(booking.startHour),
+      end: timeToMinutes(booking.endHour)
+  }));
+
+  // Ordiniamo bookingIntervals per startHour
+  bookingIntervals.sort((a, b) => a.start - b.start);
+
+  let missingIntervals = [];
+
+  for (let newBooking of newBookingIntervals) {
+      let { start: newStart, end: newEnd } = newBooking;
+      let currentStart = newStart;
+
+      for (let book of bookingIntervals) {
+          let { start: bookStart, end: bookEnd } = book;
+
+          // Se il nuovo intervallo finisce prima dell'inizio di un intervallo già esistente, è completamente libero
+          if (newEnd <= bookStart) {
+              break;
+          }
+
+          // Se il nuovo intervallo inizia dopo un intervallo esistente, saltiamo al prossimo
+          if (currentStart >= bookEnd) {
+              continue;
+          }
+
+          // Se c'è un buco tra currentStart e bookStart, lo aggiungiamo
+          if (currentStart < bookStart) {
+              missingIntervals.push({
+                  startHour: minutesToTime(currentStart),
+                  endHour: minutesToTime(bookStart),
+                  ...referenceData
+              });
+          }
+
+          // Aggiorniamo il currentStart alla fine dell'intervallo coperto
+          if (currentStart < bookEnd) {
+              currentStart = bookEnd;
+          }
+      }
+
+      // Se alla fine currentStart è ancora inferiore a newEnd, aggiungiamo l'ultima parte mancante
+      if (currentStart < newEnd) {
+          missingIntervals.push({
+              startHour: minutesToTime(currentStart),
+              endHour: minutesToTime(newEnd),
+              ...referenceData
+          });
+      }
+  }
+
+  return missingIntervals;
+}

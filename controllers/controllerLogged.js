@@ -98,93 +98,81 @@ exports.get_Logout = (req, res) => {
   });
 };
 
-exports.post_CreateBooking = (req, res) => {
-  if (req.body.copiedHoursInput) {
-    //Copia da altro elemento
-    // Splitto utilizzando il / come carattere
-    let copiedHoursInput = req.body.copiedHoursInput;
-    let ch = " ";
-    let regex = new RegExp(ch, "g");
-    let trimmedCopiedHoursInput = copiedHoursInput.replace(regex, "");
-    let hourIntervals = trimmedCopiedHoursInput.split("/");
+exports.post_CreateBooking = async (req, res) => {
+  try {
+    if (req.body.copiedHoursInput) {
+      // 📌 Pulizia input copiato e split sugli intervalli
+      let hourIntervals = req.body.copiedHoursInput.replace(/\s/g, "").split("/");
 
-    let nIntervals = hourIntervals.length;
-    console.log("Numero di intervalli: ", nIntervals);
-    //07:00 - 08:30 / 08:30 - 10:00 / 11:30 - 13:00 / 14:30 - 16:00 / 19:00 - 20:30
-    // Array per raccogliere tutte le promesse
-    let promises = hourIntervals.map((interval) => {
-      console.log("Processando intervallo:", interval);
-      let hours = interval.split("-");
-      let newBooking = {
-        date: req.body.date,
-        userId: req.user._id,
-        startHour: hours[0],
-        endHour: hours[1],
-      };
+      console.log("Numero di intervalli:", hourIntervals.length);
 
-      return Booking.findOne({
-        date: newBooking.date,
-        userId: newBooking.userId,
-        startHour: newBooking.startHour,
-        endHour: newBooking.endHour,
-      })
-        .then((booking) => {
-          if (booking) {
-            console.log("Booking already exists for", newBooking);
-          } else {
-            // Restituisci la promise creata da Booking.create()
-            return Booking.create(newBooking);
+      // 📌 Processa tutti gli intervalli in parallelo
+      await Promise.all(
+        hourIntervals.map(async (interval) => {
+          console.log("Processando intervallo:", interval);
+          let [startHour, endHour] = interval.split("-");
+          let newBooking = {
+            date: req.body.date,
+            userId: req.user._id,
+            startHour,
+            endHour,
+          };
+
+          // 📌 Controllo se esiste già
+          let existingBooking = await Booking.findOne({
+            date: newBooking.date,
+            userId: newBooking.userId,
+            startHour: newBooking.startHour,
+            endHour: newBooking.endHour,
+          });
+
+          if (existingBooking) {
+            console.log("Booking già esistente, salto:", newBooking);
+            return; // Se esiste, non fare nulla
+          }
+
+          // 📌 Trova tutti i booking già esistenti per quella data
+          let bookings = await Booking.find({ date: newBooking.date });
+          let bookingsToAdd = utils.findMissingIntervals(bookings, [newBooking]);
+
+          console.log("Booking da aggiungere:", bookingsToAdd);
+
+          if (bookingsToAdd.length > 0) {
+            await Booking.insertMany(bookingsToAdd);
           }
         })
-        .catch((err) => {
-          console.log(err);
-          throw err;
-        });
-    });
+      );
 
-    // Aspetta che tutte le promesse siano completate
-    Promise.all(promises)
-      .then(() => {
-        // Ora tutte le operazioni sono completate
-        res.redirect("/logged/manageBucchins");
-      })
-      .catch((err) => {
-        // Gestisci eventuali errori
-        res.redirect("/err/500");
-      });
-  } else {
-    if (req.body.startHour > req.body.endHour) {
-      req.flash("error", "Non puoi prenotare uno slot con ora di fine maggiore di quella di inizio!")
-      return res.redirect("/logged/manageBucchins")
+      res.redirect("/logged/manageBucchins");
     } else {
-      const newBooking = {
+      // 📌 Controllo validità orari
+      if (req.body.startHour > req.body.endHour) {
+        req.flash("error", "Non puoi prenotare uno slot con ora di fine maggiore di quella di inizio!");
+        return res.redirect("/logged/manageBucchins");
+      }
+
+      let newBooking = {
         date: req.body.date,
         userId: req.user._id,
         startHour: req.body.startHour,
         endHour: req.body.endHour,
       };
 
-      Booking.findOne({
-        date: newBooking.date,
-        userId: newBooking.userId,
-        startHour: newBooking.startHour,
-        endHour: newBooking.endHour,
-      })
-        .then((booking) => {
-          if (booking) {
-            console.log("Booking already exists!");
-            res.redirect("/logged/manageBucchins");
-          } else {
-            Booking.create(newBooking);
-            res.redirect("/logged/manageBucchins");
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-          res.redirect("/err/500");
-          return;
-        });
+      // 📌 Controlla se ci sono booking esistenti e trova intervalli mancanti
+      let bookings = await Booking.find({ date: newBooking.date });
+      let bookingsToAdd = utils.findMissingIntervals(bookings, [newBooking]);
+
+      console.log("Booking da aggiungere:", bookingsToAdd);
+
+      if (bookingsToAdd.length > 0) {
+        await Booking.insertMany(bookingsToAdd);
+      }
+
+      res.redirect("/logged/manageBucchins");
     }
+  } catch (err) {
+    console.error("Errore generale:", err);
+    res.redirect("/err/500");
   }
 };
 

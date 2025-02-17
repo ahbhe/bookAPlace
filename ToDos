@@ -1,6 +1,4 @@
 TODO Mantenere i temi costanti durante la sessione
-TODO Footer active element
-TODO ListaPrenotazioni responsive
 TODO Bottoni vari funzionano così così
 Capire come cambiare in modo furbo i localhost nel nodemailer
 
@@ -8,13 +6,9 @@ TODO rivedo login
 
 TODO Colori per evidenziare stato date in calendarion
 
-TODO TUTTI I PROBLEMI NEL LOGIN sono viste come conferma mail nel login -> Credo fatto
-
 TODO In un futuro remoto dei modal
 
 TODO Aggiorno assolutamente la prenotazione vecchia se viene creata una nuova più ampia altrimenti va tutto a puttane
-
-TODO Eliminazione booking scaduti -> Mi sa fatto!
 
 TODO Copia e allbookings capire
 
