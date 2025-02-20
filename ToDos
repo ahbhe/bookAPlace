@@ -1,18 +1,16 @@
+==================
+TODOs
+==================
+
 TODO Mantenere i temi costanti durante la sessione
 TODO Bottoni vari funzionano così così
 Capire come cambiare in modo furbo i localhost nel nodemailer
 
-TODO rivedo login
-
-TODO Colori per evidenziare stato date in calendarion
-
-TODO In un futuro remoto dei modal
-
-TODO Aggiorno assolutamente la prenotazione vecchia se viene creata una nuova più ampia altrimenti va tutto a puttane
-
-TODO Copia e allbookings capire
-
-TODO Profile da telefono scrollabile terribile
+==================
+FEATURES POST DROP
+==================
 
 TODO Aggiungi amico
-
+TODO Colori per evidenziare stato date in calendario
+TODO Login google + apple
+TODO In un futuro remoto dei modal
