@@ -28,6 +28,7 @@ exports.get_AllBookingsLogged = (req, res) => {
     { startHour: "1900", endHour: "2030", users: new Array() },
   ];
   Booking.find({ date: date })
+    .sort({startHour: 1, endHour: 1 })
     .then((bookings) => {
       users = new Map();
 

@@ -63,17 +63,19 @@ exports.computeAttendance = (bookings, users) =>{
         if(endHourEff == currentTimeSpan.endHour){
           break;
         }
+        foundStartHour = true;
+
       }else{
-        if(endHourEff > currentTimeSpan.endHour){
+        if(endHourEff >= currentTimeSpan.endHour){
+          if(!currentTimeSpan.users.some(user => user._id === bookingUser._id)){
           currentTimeSpan.users.push({nome: bookingUser.nome, cognome: bookingUser.cognome, 
             img: bookingUser.img, _id: bookingUser._id});
-        }
+          }
 
-        if(endHourEff == currentTimeSpan.endHour){
-          currentTimeSpan.users.push({nome: bookingUser.nome, cognome: bookingUser.cognome, 
-            img: bookingUser.img, _id: bookingUser._id});
+          if(endHourEff == currentTimeSpan.endHour){
+            break;
+          }
 
-          break;
         }
       }
     }

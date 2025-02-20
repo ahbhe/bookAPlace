@@ -17,3 +17,7 @@ body{
   ::-moz-selection {
     background: lightgray; /* Gecko Browsers */
   }
+
+  html, body {
+    overflow-x: hidden;
+}
