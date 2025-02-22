@@ -156,7 +156,7 @@ exports.post_Register = (req, res) => {
                 from: "bookaplacepolito@gmail.com",
                 to: user.mail,
                 subject: "Benvenuto su bookAPlace!",
-                text: `Ciao, benvenuto su bookAPlace, ci sei quasi. Clicca sul link per verificare il tuo account: http://localhost:5000/confirmYourEmail/${user.id}`,
+                text: `Ciao, benvenuto su bookAPlace, ci sei quasi. Clicca sul link per verificare il tuo account: https://omniahosting.onthewifi.com/confirmYourEmail/${user.id}`,
               };
 
               transporter.sendMail(mailOptions, (error, info) => {
