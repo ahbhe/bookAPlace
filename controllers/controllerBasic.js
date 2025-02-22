@@ -74,6 +74,7 @@ exports.get_AllBookings = (req, res) => {
           if (bookings.length) {
             attendances = utils.computeAttendance(bookings, users);
           }
+          console.log(attendances)
   
           SeatHolder.find({ date: date }).then((seatHolders) => {
             // Creiamo un array di promesse
