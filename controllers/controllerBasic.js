@@ -58,6 +58,7 @@ exports.get_AllBookings = (req, res) => {
       { startHour: "1900", endHour: "2030", users: new Array() },
     ];
     Booking.find({ date: date })
+      .sort({startHour: 1, endHour: 1 })
       .then((bookings) => {
         users = new Map();
   
@@ -89,7 +90,6 @@ exports.get_AllBookings = (req, res) => {
             // Aspettiamo che tutte le promesse siano risolte
             Promise.all(promises).then((updatedSeatHolders) => {
               res.render("allBookings", {
-                user: req.user,
                 attendances,
                 date,
                 seatHolders: updatedSeatHolders,

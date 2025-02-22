@@ -10,8 +10,6 @@
   <!--Cally CDN-->
   <script type="module" src="https://unpkg.com/cally"></script>
 
-  <!--Theme change-->
-  <script src="https://cdn.jsdelivr.net/npm/theme-change@2.0.2/index.js"></script>
 
   <!--Tailwind -->
   <link rel="stylesheet" href="/assets/css/tailwindStyle.css" />
@@ -20,19 +18,16 @@
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"
     integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
+  <script src="https://cdn.jsdelivr.net/npm/theme-change@2.0.2/index.js"></script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
     rel="stylesheet">
 
-
 </head>
 
 <body>
-  <script>
-    /*to prevent Firefox FOUC, this must be here*/
-    let FF_FOUC_FIX;
-  </script>
   <div class="navbar bg-base-100 z-1000 shadow-sm fixed">
     <div class="navbar-start">
     </div>
@@ -44,7 +39,8 @@
         <div class="indicator">
           <label class="swap swap-rotate">
             <!-- this hidden checkbox controls the state -->
-            <input type="checkbox" class="theme-controller" value="lemonade" data-toggle-theme="lemonade,dark" data-act-class="ACTIVECLASS"/>
+            <input type="checkbox" class="theme-controller" value="lemonade" data-toggle-theme="lemonade,dark"
+              data-act-class="ACTIVECLASS" />
 
             <!-- sun icon -->
             <svg class="swap-off h-5 w-5 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
