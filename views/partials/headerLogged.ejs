@@ -22,7 +22,7 @@
 <body>
   <div class="navbar bg-base-100 z-1000 shadow-sm fixed">
     <div class="navbar-start">
-      <a href="/logged/logout" class="btn btn-ghost btn-circle">
+      <a href="/logged/logout" class="tooltip tooltip-right btn btn-ghost btn-circle" data-tip="Esci">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
           class="size-6">
           <path stroke-linecap="round" stroke-linejoin="round"
@@ -31,10 +31,10 @@
       </a>
     </div>
     <div class="navbar-center">
-      <a class="btn btn-ghost text-xl" href="/logged/allBucchins">bookAPlace</a>
+      <a class="btn-ghost text-xl" href="/logged/allBucchins">bookAPlace</a>
     </div>
     <div class="navbar-end">
-      <button class="btn btn-ghost btn-circle">
+      <button class="btn btn-ghost btn-circle tooltip tooltip-left" data-tip="Cambia tema">
         <div class="indicator">
           <label class="swap swap-rotate">
             <!-- this hidden checkbox controls the state -->
