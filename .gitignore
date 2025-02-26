@@ -130,3 +130,6 @@ dist
 .pnp.*
 
 **/config/keys.json
+
+# tailwindcss file
+public/assets/css/tailwindStyle.css
