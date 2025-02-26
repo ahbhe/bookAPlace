@@ -1,6 +1,6 @@
 <div class="dock dock-sm z-50">
-  <div class="tooltip flex items-center justify-center w-auto h-auto p-2" data-tip="Visualizza prenotazioni">
-    <a href="/logged/allBucchins">
+  <a href="/logged/allBucchins" class="tooltip" data-tip="Visualizza prenotazioni">
+    <div class="flex items-center justify-center w-auto h-auto p-2">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
         class="size-6">
         <path stroke-linecap="round" stroke-linejoin="round"
@@ -11,13 +11,12 @@
           stroke-width="2"></polyline>
         <rect x="3" y="3" width="18" height="18" rx="2" ry="2" fill="none" stroke="currentColor" stroke-linecap="square"
           stroke-miterlimit="10" stroke-width="2"></rect>
-    </a></svg>
-    </button>
+      </g>
+    </div>
+  </a>
 
-  </div>
-
-  <div class="tooltip flex items-center justify-center w-auto h-auto p-2" data-tip="Nuova prenotazione">
-    <a href="/logged/manageBucchins">
+  <a href="/logged/manageBucchins" class="tooltip" data-tip="Nuova prenotazione">
+    <div class="flex items-center justify-center w-auto h-auto p-2">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
         class="size-6">
         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -29,27 +28,32 @@
           stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></path>
         <line x1="12" y1="22" x2="12" y2="18" fill="none" stroke="currentColor" stroke-linecap="square"
           stroke-miterlimit="10" stroke-width="2"></line>
-      </g></svg>
-    </a>
-  </div>
-
-  <div class="tooltip flex items-center justify-center w-auto h-auto p-2">
-    <div class="tooltip-content">
-      <div class="animate-bounce text-orange-400 -rotate-10 text-2xl font-black">DAJE!</div>
+      </g>
     </div>
+  </a>
 
-    <a class="avatar" href="/logged/myProfile">
-      <div class="w-10 rounded-full">
-        <%if(user.img=='' ){%>
-          <img class="transition duration-500 group-hover:grayscale group-hover:blur-2xl z-0"
-            src="/assets/imgs/defaultProfile.png" />
-          <%}else{%>
-            <img class="transition duration-500 group-hover:grayscale group-hover:blur-2xl z-0" src="/<%=user.img%>" />
-            <%}%>
+
+
+  <a href="/logged/myProfile">
+    <div class="tooltip flex w-auto h-auto p-2">
+      <div class="tooltip-content">
+        <div class="animate-bounce text-orange-400 -rotate-10 text-2xl font-black">DAJE!</div>
       </div>
-    </a>
-  </div>
-  </body>
-  
+      <div class="avatar flex items-center justify-center w-auto h-auto p-2">
+        <div class="w-10 rounded-full">
+          <%if(user.img=='' ){%>
+            <img class="transition duration-500 group-hover:grayscale group-hover:blur-2xl z-0"
+              src="/assets/imgs/defaultProfile.png" />
+            <%}else{%>
+              <img class="transition duration-500 group-hover:grayscale group-hover:blur-2xl z-0"
+                src="/<%=user.img%>" />
+              <%}%>
+        </div>
+      </div>
+    </div>
+  </a>
+</div>
+</body>
 
-  </html>
+
+</html>

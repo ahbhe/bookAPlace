@@ -58,6 +58,7 @@ exports.get_AllBookings = (req, res) => {
       { startHour: "1900", endHour: "2030", users: new Array() },
     ];
     Booking.find({ date: date })
+      .sort({startHour: 1, endHour: 1 })
       .then((bookings) => {
         users = new Map();
   
@@ -73,6 +74,7 @@ exports.get_AllBookings = (req, res) => {
           if (bookings.length) {
             attendances = utils.computeAttendance(bookings, users);
           }
+          console.log(attendances)
   
           SeatHolder.find({ date: date }).then((seatHolders) => {
             // Creiamo un array di promesse
@@ -89,7 +91,6 @@ exports.get_AllBookings = (req, res) => {
             // Aspettiamo che tutte le promesse siano risolte
             Promise.all(promises).then((updatedSeatHolders) => {
               res.render("allBookings", {
-                user: req.user,
                 attendances,
                 date,
                 seatHolders: updatedSeatHolders,
@@ -155,7 +156,7 @@ exports.post_Register = (req, res) => {
                 from: "bookaplacepolito@gmail.com",
                 to: user.mail,
                 subject: "Benvenuto su bookAPlace!",
-                text: `Ciao, benvenuto su bookAPlace, ci sei quasi. Clicca sul link per verificare il tuo account: http://localhost:5000/confirmYourEmail/${user.id}`,
+                text: `Ciao, benvenuto su bookAPlace, ci sei quasi. Clicca sul link per verificare il tuo account: https://omniahosting.onthewifi.com/confirmYourEmail/${user.id}`,
               };
 
               transporter.sendMail(mailOptions, (error, info) => {

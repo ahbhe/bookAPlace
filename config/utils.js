@@ -66,7 +66,7 @@ exports.computeAttendance = (bookings, users) =>{
         foundStartHour = true;
 
       }else{
-        if(endHourEff >= currentTimeSpan.endHour){
+        if(endHourEff >= currentTimeSpan.endHour && startHourEff <= currentTimeSpan.startHour){
           if(!currentTimeSpan.users.some(user => user._id === bookingUser._id)){
           currentTimeSpan.users.push({nome: bookingUser.nome, cognome: bookingUser.cognome, 
             img: bookingUser.img, _id: bookingUser._id});
