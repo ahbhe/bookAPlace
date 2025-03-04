@@ -139,6 +139,7 @@ exports.post_CreateBooking = async (req, res) => {
 
       // 📌 Trova tutti i booking già esistenti per quella data
       let bookings = await Booking.find({ date: newBooking.date });
+      let bookingsToAdd = utils.findMissingIntervals(bookings, [newBooking])
       let bookingsToAdd = utils.findMissingIntervals(bookings, [newBooking]);
 
       console.log("Booking da aggiungere:", bookingsToAdd);
