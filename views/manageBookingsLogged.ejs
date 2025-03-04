@@ -115,6 +115,15 @@
               <option>19:00</option>
               <option>20:30</option>
             </select>
+            <div>
+              <label class="fieldset-label id="takeFriendLabel" for="takeFriend">Porta un amico</label>
+              <input type="checkbox" name="takeFriendChk" class="checkbox rounded checkbox-primary" id="takeFriend" onchange="document.getElementById('divFriendNumber').style.display = this.checked ? 'block' : 'none' " />
+              <div style="display: none;" id="divFriendNumber">
+                <input type="number" name="friendsNumber" id="friendsNumber" class="input validator" required placeholder="Numero di amici"
+                  min="1" value="1" title="Quanti amici porti?" />
+                <p class="validator-hint">Il valore deve essere almeno pari a uno!</p>
+              </div>
+            </div>
             <div class="pt-5">
               <input type="submit" class="btn btn-primary" value="Prenota" />
             </div>
@@ -209,14 +218,14 @@
         bound: false
       });
 
-      function setMinDate(){
-          var date = new Date();
-          if (date.getHours() >= 20 && date.getMinutes() >= 30) { //dopo le 20:30 si passa al giorno successivo
-            return new Date(date.getTime() + 24 * 60 * 60 * 1000); //aggiungo un giorno
-          }
-          else {
-            return new Date();
-          }
+      function setMinDate() {
+        var date = new Date();
+        if (date.getHours() >= 20 && date.getMinutes() >= 30) { //dopo le 20:30 si passa al giorno successivo
+          return new Date(date.getTime() + 24 * 60 * 60 * 1000); //aggiungo un giorno
+        }
+        else {
+          return new Date();
+        }
       }
 
 

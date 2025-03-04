@@ -32,6 +32,10 @@ const bookingSchema = new Schema({
             return null; // Se la data è errata, evita errori
         },
         index: { expires: 0 } // TTL Index per eliminare automaticamente
+    },
+    friendsNumber:{
+        type: Number,
+        required: false
     }
 })
 

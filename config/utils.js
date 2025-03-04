@@ -100,7 +100,7 @@ exports.findMissingIntervals =(bookings, newBookings) =>{
 
   // Prendiamo il primo elemento di newBookings come riferimento per userId e altri parametri
   const referenceBooking = newBookings[0];
-  const referenceData = { userId: referenceBooking.userId, date: referenceBooking.date };
+  const referenceData = { userId: referenceBooking.userId, date: referenceBooking.date, friendsNumber: referenceBooking.friendsNumber };
 
   let bookingIntervals = bookings.map(booking => ({
       start: timeToMinutes(booking.startHour),
