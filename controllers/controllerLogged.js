@@ -8,6 +8,9 @@ exports.get_AllBookingsLogged = (req, res) => {
   date = req.query.date;
   if (!date) {
     date = new Date();
+    if(date.getDay() == 0){ //salto la domenica
+      date.setDate(date.getDate() + 1);
+    }
     month = date.getMonth() + 1;
     if (month < 10) month = `0${month}`;
 
@@ -163,7 +166,7 @@ exports.post_CreateBooking = async (req, res) => {
     };
 
     // 📌 Controlla se ci sono booking esistenti e trova intervalli mancanti
-    let bookings = await Booking.find({ date: newBooking.date });
+    let bookings = await Booking.find({ date: newBooking.date, userId: newBooking.userId }); //solamente tra le prenotazioni dello stesso utente
     let bookingsToAdd = utils.findMissingIntervals(bookings, [newBooking]);
 
     console.log("Booking da aggiungere:", bookingsToAdd);
