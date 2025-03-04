@@ -59,6 +59,10 @@ exports.computeAttendance = (bookings, users) =>{
 
         currentTimeSpan.users.push({nome: bookingUser.nome, cognome: bookingUser.cognome, 
           img: bookingUser.img, _id: bookingUser._id});
+          
+        for(let i = 0; i < booking.friendsNumber; i++){
+          currentTimeSpan.users.push({nome:"Amico di", cognome:bookingUser.nome + " " + bookingUser.cognome, img: bookingUser.img, _id: bookingUser._id});
+        }
 
         if(endHourEff == currentTimeSpan.endHour){
           break;
@@ -70,6 +74,10 @@ exports.computeAttendance = (bookings, users) =>{
           if(!currentTimeSpan.users.some(user => user._id === bookingUser._id)){
           currentTimeSpan.users.push({nome: bookingUser.nome, cognome: bookingUser.cognome, 
             img: bookingUser.img, _id: bookingUser._id});
+          }
+
+          for(let i = 0; i < booking.friendsNumber; i++){
+            currentTimeSpan.users.push({img: "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png"});
           }
 
           if(endHourEff == currentTimeSpan.endHour){
@@ -100,7 +108,7 @@ exports.findMissingIntervals =(bookings, newBookings) =>{
 
   // Prendiamo il primo elemento di newBookings come riferimento per userId e altri parametri
   const referenceBooking = newBookings[0];
-  const referenceData = { userId: referenceBooking.userId, date: referenceBooking.date };
+  const referenceData = { userId: referenceBooking.userId, date: referenceBooking.date, friendsNumber: referenceBooking.friendsNumber };
 
   let bookingIntervals = bookings.map(booking => ({
       start: timeToMinutes(booking.startHour),

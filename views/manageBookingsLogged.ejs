@@ -66,7 +66,7 @@
 
             <label class="fieldset-label" for="date">Data</label>
 
-            <input type="text" name="date" class="input pika-single" id="myDatepicker" hidden>
+            <input type="text" name="date" class="input pika-single" id="myDatepicker" onchange="aggiornaSelectOrari()" hidden>
             <div class="text-md pt-2 text-red-500 underline" id="errorMessage" hidden>Il campo data è obbligatorio!
             </div>
             <div class="list-row" id="copiedData" hidden>
@@ -91,7 +91,7 @@
             </div>
 
             <label class="fieldset-label pt-3" id="startHourLabel" for="startHour">Inizio prenotazione</label>
-            <select name="startHour" id="startHour" class="select">
+            <select name="startHour" id="startHour" class="select" onchange="aggiornaOraFine()">
               <option>07:00</option>
               <option>08:30</option>
               <option>10:00</option>
@@ -115,6 +115,17 @@
               <option>19:00</option>
               <option>20:30</option>
             </select>
+            <div>
+              <label class="fieldset-label" id="takeFriendLabel" for="takeFriend">Porta un amico</label>
+              <input type="checkbox" name="takeFriendChk" class="checkbox rounded checkbox-primary" id="takeFriend"
+                onchange="document.getElementById('divFriendNumber').style.display = this.checked ? 'block' : 'none' " />
+              <div style="display: none;" id="divFriendNumber">
+                <label class="fieldset-label" for="friendsNumber">Numero di amici</label>
+                <input type="number" name="friendsNumber" id="friendsNumber" class="input validator" required
+                  placeholder="Numero di amici" min="1" value="1" title="Quanti amici porti?" />
+                <p class="validator-hint">Il valore deve essere almeno pari a uno!</p>
+              </div>
+            </div>
             <div class="pt-5">
               <input type="submit" class="btn btn-primary" value="Prenota" />
             </div>
@@ -128,6 +139,10 @@
     <script>
 
       document.addEventListener("DOMContentLoaded", function () { //tolgo gli slot orari non più prenotabili, perchè nel passato
+        aggiornaOrari();
+      });
+
+      function aggiornaOrari(){
         var dateNow = new Date();
         var selectEnd = document.getElementById("endHour");
         var selectStart = document.getElementById("startHour");
@@ -138,7 +153,11 @@
             selectEnd.remove(i);
           }
         }
-      });
+      }
+
+      function aggiornaOraFine() {
+        document.getElementById("endHour").selectedIndex = document.getElementById("startHour").selectedIndex; //muovo l'ora di fine per avere senso
+      }
 
       function copyInCurrentDate(index) {
         // Nascondi i campi di orario
@@ -209,16 +228,29 @@
         bound: false
       });
 
-      function setMinDate(){
-          var date = new Date();
-          if (date.getHours() >= 20 && date.getMinutes() >= 30) { //dopo le 20:30 si passa al giorno successivo
-            return new Date(date.getTime() + 24 * 60 * 60 * 1000); //aggiungo un giorno
+      function aggiornaSelectOrari() { //se cambia il giorno, gli orari devono essere tutti visibili
+        if (picker != undefined) {
+          if (picker.getDate().toDateString() != new Date().toDateString()) {
+            $("#startHour").empty();
+            $("#endHour").empty();
+            $("#startHour").append('<option>07:00</option><option>08:30</option><option>10:00</option><option>11:30</option><option>13:00</option><option>14:30</option><option>16:00</option><option>17:30</option><option>19:00</option>');
+            $("#endHour").append('<option>08:30</option><option>10:00</option><option>11:30</option><option>13:00</option><option>14:30</option><option>16:00</option><option>17:30</option><option>19:00</option><option>20:30</option>');
           }
-          else {
-            return new Date();
+          else{
+            aggiornaOrari();
           }
+        }
       }
 
+      function setMinDate() {
+        var date = new Date();
+        if (date.getHours() >= 20 && date.getMinutes() >= 30) { //dopo le 20:30 si passa al giorno successivo
+          return new Date(date.getTime() + 24 * 60 * 60 * 1000); //aggiungo un giorno
+        }
+        else {
+          return new Date();
+        }
+      }
 
       document.getElementById('newBucchinForm').addEventListener('submit', function (event) {
         // Recupera il valore dell'input hidden
