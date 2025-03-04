@@ -8,6 +8,9 @@ exports.get_AllBookingsLogged = (req, res) => {
   date = req.query.date;
   if (!date) {
     date = new Date();
+    if(date.getDay() == 0){ //salto la domenica
+      date.setDate(date.getDate() + 1);
+    }
     month = date.getMonth() + 1;
     if (month < 10) month = `0${month}`;
 
