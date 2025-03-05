@@ -121,9 +121,9 @@
                 onchange="document.getElementById('divFriendNumber').style.display = this.checked ? 'block' : 'none' " />
               <div style="display: none;" id="divFriendNumber">
                 <label class="fieldset-label" for="friendsNumber">Numero di amici</label>
-                <input type="number" name="friendsNumber" id="friendsNumber" class="input validator" required
+                <input type="number" name="friendsNumber" id="friendsNumber" class="input validator"
                   placeholder="Numero di amici" min="1" value="1" title="Quanti amici porti?" />
-                <p class="validator-hint">Il valore deve essere almeno pari a uno!</p>
+                <p class="validator-hint" style="color: red;">Il valore deve essere almeno pari a uno!</p>
               </div>
             </div>
             <div class="pt-5">
@@ -225,11 +225,12 @@
           return (date.getDay() === 0);
         },
         minDate: setMinDate(),
-        bound: false
+        bound: false,
+        keyboardInput: false
       });
 
       function aggiornaSelectOrari() { //se cambia il giorno, gli orari devono essere tutti visibili
-        if (picker != undefined) {
+        if (picker.getDate() != undefined) {
           if (picker.getDate().toDateString() != new Date().toDateString()) {
             $("#startHour").empty();
             $("#endHour").empty();
