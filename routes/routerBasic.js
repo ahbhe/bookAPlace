@@ -23,7 +23,17 @@ router.route('/confirmYourEmail')
 router.route('/confirmYourEmail/:id')
     .get(controllerBasic.get_mailLinkClicked)
 
-    router.route('/profile/:id')
+router.route('/profile/:id')
     .get(controllerBasic.get_profile);
+
+router.route('/forgotPassword')
+    .get(controllerBasic.get_forgotPassword);
+
+router.route('/recoverPassword')
+    .post(controllerBasic.post_recoverPassword);
+
+router.route('/resetUserPassword/:id')
+    .get(controllerBasic.get_resetUserPassword)
+    .post(controllerBasic.post_resetUserPassword);
 
 module.exports = router;
