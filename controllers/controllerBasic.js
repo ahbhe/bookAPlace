@@ -279,7 +279,7 @@ exports.post_recoverPassword = (req, res) => {
         from: "bookaplacepolito@gmail.com",
         to: user.mail,
         subject: "Reimposta la tua password su bookAPlace!",
-        text: `Ciao, clicca sul link per reimpostare la tua password: https://omniahosting.onthewifi.com/resetUserPassword/${user.id}`,
+        text: `Ciao, clicca sul link per reimpostare la tua password: https://omniahosting.onthewifi.com/changeUserPassword/${user.id}`,
       };
 
       transporter.sendMail(mailOptions, (error, info) => {
@@ -296,11 +296,11 @@ exports.post_recoverPassword = (req, res) => {
   res.redirect("/");
 };
 
-exports.get_resetUserPassword = (req, res) => {
-  res.render("resetUserPassword", { id: req.params.id });
+exports.get_changeUserPassword = (req, res) => {
+  res.render("changeUserPassword", { id: req.params.id });
 };
 
-exports.post_resetUserPassword = (req, res) => {
+exports.post_changeUserPassword = (req, res) => {
   bcrypt.genSalt(10, (err, salt) => {
     bcrypt.hash(req.body.confermaPassword, salt, (err, hash) => {
       if (err) console.log(err);

@@ -32,8 +32,8 @@ router.route('/forgotPassword')
 router.route('/recoverPassword')
     .post(controllerBasic.post_recoverPassword);
 
-router.route('/resetUserPassword/:id')
-    .get(controllerBasic.get_resetUserPassword)
-    .post(controllerBasic.post_resetUserPassword);
+router.route('/changeUserPassword/:id')
+    .get(controllerBasic.get_changeUserPassword)
+    .post(controllerBasic.post_changeUserPassword);
 
 module.exports = router;
