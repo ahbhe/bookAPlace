@@ -40,12 +40,12 @@ exports.get_AllBookings = (req, res) => {
       date = new Date();
       month = date.getMonth() + 1;
       if (month < 10) month = `0${month}`;
-  
+
       day = date.getDate();
       if (day < 10) day = `0${day}`;
       date = `${date.getFullYear()}/${month}/${day}`;
     }
-  
+
     attendances = [
       { startHour: "0700", endHour: "0830", users: new Array() },
       { startHour: "0830", endHour: "1000", users: new Array() },
@@ -58,10 +58,10 @@ exports.get_AllBookings = (req, res) => {
       { startHour: "1900", endHour: "2030", users: new Array() },
     ];
     Booking.find({ date: date })
-      .sort({startHour: 1, endHour: 1 })
+      .sort({ startHour: 1, endHour: 1 })
       .then((bookings) => {
         users = new Map();
-  
+
         const userPromises = bookings.map((booking) =>
           User.findOne({ _id: booking.userId }).then((user) => {
             if (user) {
@@ -69,13 +69,13 @@ exports.get_AllBookings = (req, res) => {
             }
           })
         );
-  
+
         Promise.all(userPromises).then(() => {
           if (bookings.length) {
             attendances = utils.computeAttendance(bookings, users);
           }
           console.log(attendances)
-  
+
           SeatHolder.find({ date: date }).then((seatHolders) => {
             // Creiamo un array di promesse
             const promises = seatHolders.map(async (seatHolder) => {
@@ -87,7 +87,7 @@ exports.get_AllBookings = (req, res) => {
               }
               return seatHolder;
             });
-  
+
             // Aspettiamo che tutte le promesse siano risolte
             Promise.all(promises).then((updatedSeatHolders) => {
               res.render("allBookings", {
@@ -234,11 +234,11 @@ exports.post_Login = (req, res, next) => {
       if (info.message == "NOT_VALIDATED") {
         res.redirect("/confirmYourEmail");
       } else {
-          req.flash(
-            "error",
-            "È stata inserita una mail o una password errata"
-          );
-          return res.redirect("/login");
+        req.flash(
+          "error",
+          "È stata inserita una mail o una password errata"
+        );
+        return res.redirect("/login");
       }
     }
     req.logIn(user, function (err) {
@@ -253,5 +253,64 @@ exports.post_Login = (req, res, next) => {
 exports.get_profile = (req, res) => {
   User.findById(req.params.id).then((user) => {
     res.render("profile", { selectedUser: user, user: req.user });
+  });
+};
+
+exports.get_forgotPassword = (req, res) => {
+  res.render("forgotPassword");
+};
+
+exports.post_recoverPassword = (req, res) => {
+  User.findOne({ mail: req.body.mail }).then((user) => {
+    if (user) {
+      //send mail
+      const transporter = nodemailer.createTransport({
+        service: "Gmail",
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true,
+        auth: {
+          user: "bookaplacepolito@gmail.com",
+          pass: require("../config/keys").MailPWD,
+        },
+      });
+
+      const mailOptions = {
+        from: "bookaplacepolito@gmail.com",
+        to: user.mail,
+        subject: "Reimposta la tua password su bookAPlace!",
+        text: `Ciao, clicca sul link per reimpostare la tua password: https://omniahosting.onthewifi.com/changeUserPassword/${user.id}`,
+      };
+
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.error("Error sending email: ", error);
+        } else {
+          console.log("Email sent: ", info.response);
+        }
+      });
+    } else {
+      res.redirect("/register");
+    }
+  });
+  res.redirect("/");
+};
+
+exports.get_changeUserPassword = (req, res) => {
+  res.render("changeUserPassword", { id: req.params.id });
+};
+
+exports.post_changeUserPassword = (req, res) => {
+  bcrypt.genSalt(10, (err, salt) => {
+    bcrypt.hash(req.body.confermaPassword, salt, (err, hash) => {
+      if (err) console.log(err);
+      User.updateOne({ _id: req.params.id }, { password: hash }).then(() => {
+        res.status(200).redirect("/login");
+      })
+        .catch((err) => {
+          console.error(err);
+          res.status(400).redirect("/err/404");
+        });
+    });
   });
 };

@@ -16,19 +16,37 @@
         <input type="email" class="input" placeholder="Email" name="mail" required />
 
         <label class="fieldset-label" for="password">Password</label>
-        <input type="password" id="password" class="input validator" required placeholder="Password" minlength="8"
-          pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-          title="Must be more than 8 characters, including number, lowercase letter, uppercase letter" />
-        <p class="validator-hint hidden">
-          La password deve essere lunga almeno 8 caratteri, e deve contenere:
-          <br />Almeno un numero
-          <br />Almeno una lettera minuscola
-          <br />Almeno una lettera maiuscola
-        </p>
+        <div class="relative w-full">
+          <div class="absolute top-0 right-0 flex items-center px-2" style="z-index: 10; padding-top: 2%;">
+            <input class="hidden js-password-toggle" id="toggle" type="checkbox" />
+            <label
+              class="bg-gray-300 hover:bg-gray-400 rounded px-2 py-1 text-sm text-gray-600 font-mono cursor-pointer js-password-label"
+              for="toggle">mostra</label>
+          </div>
+          <input type="password" id="password" class="input validator" required placeholder="Password" minlength="8"
+            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+            title="Must be more than 8 characters, including number, lowercase letter, uppercase letter" autocomplete="off" />
+          <p class="validator-hint hidden" style="color: red;">
+            La password deve essere lunga almeno 8 caratteri, e deve contenere:
+            <br />Almeno un numero
+            <br />Almeno una lettera minuscola
+            <br />Almeno una lettera maiuscola
+          </p>
+        </div>
+
         <label class="fieldset-label" for="confermaPassword">Conferma password</label>
-        <input type="password" class="input" placeholder="Password" id="confermaPassword" name="confermaPassword"
-          required />
-        <p id="validation" class="text-center text-orange-500 italic text-sm"></p>
+
+        <div class="relative w-full">
+          <div class="absolute top-0 right-0 flex items-center px-2" style="z-index: 10; padding-top: 2%;">
+            <input class="hidden js-confermaPassword-toggle" id="confermaToggle" type="checkbox" />
+            <label
+              class="bg-gray-300 hover:bg-gray-400 rounded px-2 py-1 text-sm text-gray-600 font-mono cursor-pointer js-confermaPassword-label"
+              for="confermaToggle">mostra</label>
+          </div>
+          <input type="password" class="input" placeholder="Password" id="confermaPassword" name="confermaPassword"
+            required autocomplete="off"/>
+          <p id="validation" class="text-center text-orange-500 italic text-sm mt-4"></p>
+        </div>
 
         <input type="submit" class="btn btn-neutral mt-4" id="submit" name="submit" value="Registrati" />
     </form>
@@ -63,6 +81,40 @@
   </body>
 
   <script>
+    const passwordToggle = document.querySelector('.js-password-toggle');
+
+    passwordToggle.addEventListener('change', function () {
+      const password = document.getElementById('password'),
+        passwordLabel = document.querySelector('.js-password-label');
+
+      if (password.type === 'password') {
+        password.type = 'text';
+        passwordLabel.innerHTML = 'nascondi';
+      } else {
+        password.type = 'password';
+        passwordLabel.innerHTML = 'mostra';
+      }
+
+      password.focus();
+    })
+
+    const confermaPasswordToggle = document.querySelector('.js-confermaPassword-toggle');
+
+    confermaPasswordToggle.addEventListener('change', function () {
+      const confermaPassword = document.getElementById('confermaPassword'),
+        confermaPasswordLabel = document.querySelector('.js-confermaPassword-label');
+
+      if (confermaPassword.type === 'password') {
+        confermaPassword.type = 'text';
+        confermaPasswordLabel.innerHTML = 'nascondi';
+      } else {
+        confermaPassword.type = 'password';
+        confermaPasswordLabel.innerHTML = 'mostra';
+      }
+
+      confermaPassword.focus();
+    })
+
     $("#confermaPassword, #password").on("keyup input", function () {
       var password = $("#password").val();
       var confirmPassword = $("#confermaPassword").val();

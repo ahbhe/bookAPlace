@@ -8,6 +8,9 @@ exports.get_AllBookingsLogged = (req, res) => {
   date = req.query.date;
   if (!date) {
     date = new Date();
+    if(date.getDay() == 0){ //salto la domenica
+      date.setDate(date.getDate() + 1);
+    }
     month = date.getMonth() + 1;
     if (month < 10) month = `0${month}`;
 
@@ -28,7 +31,7 @@ exports.get_AllBookingsLogged = (req, res) => {
     { startHour: "1900", endHour: "2030", users: new Array() },
   ];
   Booking.find({ date: date })
-    .sort({startHour: 1, endHour: 1 })
+    .sort({ startHour: 1, endHour: 1 })
     .then((bookings) => {
       users = new Map();
 
@@ -117,49 +120,24 @@ exports.post_CreateBooking = async (req, res) => {
             userId: req.user._id,
             startHour,
             endHour,
+            friendsNumber: (req.body.takeFriendChk)? req.body.friendsNumber : 0,
           };
 
-          // 📌 Controllo se esiste già
-          let existingBooking = await Booking.findOne({
-            date: newBooking.date,
-            userId: newBooking.userId,
-            startHour: newBooking.startHour,
-            endHour: newBooking.endHour,
-          });
+      // 📌 Controllo se esiste già
+      let existingBooking = await Booking.findOne({
+        date: newBooking.date,
+        userId: newBooking.userId,
+        startHour: newBooking.startHour,
+        endHour: newBooking.endHour,
+        friendsNumber: (req.body.takeFriendChk)? req.body.friendsNumber : 0,
+      });
 
-          if (existingBooking) {
-            console.log("Booking già esistente, salto:", newBooking);
-            return; // Se esiste, non fare nulla
-          }
-
-          // 📌 Trova tutti i booking già esistenti per quella data
-          let bookings = await Booking.find({ date: newBooking.date });
-          let bookingsToAdd = utils.findMissingIntervals(bookings, [newBooking]);
-
-          console.log("Booking da aggiungere:", bookingsToAdd);
-
-          if (bookingsToAdd.length > 0) {
-            await Booking.insertMany(bookingsToAdd);
-          }
-        })
-      );
-
-      res.redirect("/logged/manageBucchins");
-    } else {
-      // 📌 Controllo validità orari
-      if (req.body.startHour > req.body.endHour) {
-        req.flash("error", "Non puoi prenotare uno slot con ora di fine maggiore di quella di inizio!");
-        return res.redirect("/logged/manageBucchins");
+      if (existingBooking) {
+        console.log("Booking già esistente, salto:", newBooking);
+        return; // Se esiste, non fare nulla
       }
 
-      let newBooking = {
-        date: req.body.date,
-        userId: req.user._id,
-        startHour: req.body.startHour,
-        endHour: req.body.endHour,
-      };
-
-      // 📌 Controlla se ci sono booking esistenti e trova intervalli mancanti
+      // 📌 Trova tutti i booking già esistenti per quella data
       let bookings = await Booking.find({ date: newBooking.date });
       let bookingsToAdd = utils.findMissingIntervals(bookings, [newBooking]);
 
@@ -168,13 +146,41 @@ exports.post_CreateBooking = async (req, res) => {
       if (bookingsToAdd.length > 0) {
         await Booking.insertMany(bookingsToAdd);
       }
+    })
+      );
 
-      res.redirect("/logged/manageBucchins");
+    res.redirect("/logged/manageBucchins");
+  } else {
+    // 📌 Controllo validità orari
+    if (req.body.startHour > req.body.endHour) {
+      req.flash("error", "Non puoi prenotare uno slot con ora di fine maggiore di quella di inizio!");
+      return res.redirect("/logged/manageBucchins");
     }
-  } catch (err) {
-    console.error("Errore generale:", err);
-    res.redirect("/err/500");
+
+    let newBooking = {
+      date: req.body.date,
+      userId: req.user._id,
+      startHour: req.body.startHour,
+      endHour: req.body.endHour,
+      friendsNumber: (req.body.takeFriendChk)? req.body.friendsNumber : 0,
+    };
+
+    // 📌 Controlla se ci sono booking esistenti e trova intervalli mancanti
+    let bookings = await Booking.find({ date: newBooking.date, userId: newBooking.userId }); //solamente tra le prenotazioni dello stesso utente
+    let bookingsToAdd = utils.findMissingIntervals(bookings, [newBooking]);
+
+    console.log("Booking da aggiungere:", bookingsToAdd);
+
+    if (bookingsToAdd.length > 0) {
+      await Booking.insertMany(bookingsToAdd);
+    }
+
+    res.redirect("/logged/manageBucchins");
   }
+} catch (err) {
+  console.error("Errore generale:", err);
+  res.redirect("/err/500");
+}
 };
 
 exports.delete_DeleteBooking = (req, res) => {
