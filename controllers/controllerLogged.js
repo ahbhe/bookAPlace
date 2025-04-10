@@ -47,7 +47,6 @@ exports.get_AllBookingsLogged = (req, res) => {
         if (bookings.length) {
           attendances = utils.computeAttendance(bookings, users);
         }
-
         SeatHolder.find({ date: date }).then((seatHolders) => {
           // Creiamo un array di promesse
           const promises = seatHolders.map(async (seatHolder) => {
@@ -59,7 +58,15 @@ exports.get_AllBookingsLogged = (req, res) => {
             }
             return seatHolder;
           });
-
+          console.log(attendances[5].users)
+          
+         /*  attendances.array.forEach(element => {
+            console.log(element.startHour + " " + element.endHour)
+            element.users.forEach(user =>{
+              console.log(user)
+            })
+          }); */
+          
           // Aspettiamo che tutte le promesse siano risolte
           Promise.all(promises).then((updatedSeatHolders) => {
             res.render("allBookingsLogged", {

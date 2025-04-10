@@ -77,7 +77,7 @@ exports.computeAttendance = (bookings, users) =>{
           }
 
           for(let i = 0; i < booking.friendsNumber; i++){
-            currentTimeSpan.users.push({img: "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png"});
+            currentTimeSpan.users.push({nome:"Amico di", cognome:bookingUser.nome + " " + bookingUser.cognome, img: bookingUser.img, _id: bookingUser._id});
           }
 
           if(endHourEff == currentTimeSpan.endHour){
@@ -88,6 +88,7 @@ exports.computeAttendance = (bookings, users) =>{
       }
     }
   }) 
+
 
   return attendance;
 }
