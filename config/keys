@@ -1,5 +1,5 @@
 {
-    "MongoURI": ${{ secrets.MONGOURI }},
-    "MailPWD":${{ secrets.MAILPWD }},
-    "SessionSecret": ${{ secrets.SESSIONSECRET }}
+    "MongoURI": process.env.MONGOURI,
+    "MailPWD": process.env.MAILPWD,
+    "SessionSecret": process.env.SESSIONSECRET
 }
