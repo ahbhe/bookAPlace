@@ -1,5 +1,5 @@
 {
-    "MongoURI": "mongodb+srv://bookaplacepolito:44LQvfV3RziMtre4@bookaplace.y6tlq.mongodb.net/?retryWrites=true&w=majority&appName=bookAPlace",
-    "MailPWD":"xoxw iiwp bars rldi",
-    "SessionSecret": "DAJEROMA"
+    "MongoURI": ${{secrets.MONGOURI}},
+    "MailPWD":${{secrets.MAILPWD}},
+    "SessionSecret": ${{secrets.SESSIONSECRET}}
 }
