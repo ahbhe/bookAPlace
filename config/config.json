@@ -1,5 +1,0 @@
-{
-    "MongoURI": ${{secrets.MONGOURI}},
-    "MailPWD":${{secrets.MAILPWD}},
-    "SessionSecret": ${{secrets.SESSIONSECRET}}
-}
