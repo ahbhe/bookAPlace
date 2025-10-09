@@ -9,7 +9,7 @@ app.listen(PORT, () =>{
     console.log(`BookAPlace ~ Currently listening on port ${PORT}`);
 });
 
-let db = require('./config/keys').MongoURI;
+let db = process.env.MONGOURI;
 mongoose.connect(db);
 
 db = mongoose.connection;
