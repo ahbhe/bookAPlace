@@ -34,7 +34,7 @@ app.use(flash())
 
 
 app.use(session({
-  secret: require('./config/keys').SessionSecret,
+  secret: process.env.SESSIONSECRET,
   resave: false,
   saveUninitialized: false,
   cookie: {_expires : 60000000}
