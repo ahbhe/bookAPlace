@@ -148,7 +148,7 @@ exports.post_Register = (req, res) => {
                 secure: true,
                 auth: {
                   user: "bookaplacepolito@gmail.com",
-                  pass: require("../config/keys").MailPWD,
+                  pass: process.env.MAILPWD,
                 },
               });
 
@@ -271,7 +271,7 @@ exports.post_recoverPassword = (req, res) => {
         secure: true,
         auth: {
           user: "bookaplacepolito@gmail.com",
-          pass: require("../config/keys").MailPWD,
+          pass: process.env.MAILPWD,
         },
       });
 
