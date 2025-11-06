@@ -156,7 +156,7 @@ exports.post_Register = (req, res) => {
                 from: "bookaplacepolito@gmail.com",
                 to: user.mail,
                 subject: "Benvenuto su bookAPlace!",
-                text: `Ciao, benvenuto su bookAPlace, ci sei quasi. Clicca sul link per verificare il tuo account: https://omniahosting.onthewifi.com/confirmYourEmail/${user.id}`,
+                text: `Ciao, benvenuto su bookAPlace, ci sei quasi. Clicca sul link per verificare il tuo account: https://bookaplace-1f83a5b8f91f.herokuapp.com/confirmYourEmail/${user.id}`,
               };
 
               transporter.sendMail(mailOptions, (error, info) => {
@@ -279,7 +279,7 @@ exports.post_recoverPassword = (req, res) => {
         from: "bookaplacepolito@gmail.com",
         to: user.mail,
         subject: "Reimposta la tua password su bookAPlace!",
-        text: `Ciao, clicca sul link per reimpostare la tua password: https://omniahosting.onthewifi.com/changeUserPassword/${user.id}`,
+        text: `Ciao, clicca sul link per reimpostare la tua password: https://bookaplace-1f83a5b8f91f.herokuapp.com/changeUserPassword/${user.id}`,
       };
 
       transporter.sendMail(mailOptions, (error, info) => {
